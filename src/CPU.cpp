@@ -26,253 +26,213 @@ CPU::CPU(NESTypes::Bus &b) : bus(b) {
 
 void CPU::initInstructionTable() {
     instructionTable.reserve(0xff);
-    instructionTable[0x0] = (CPUTypes::InstructionDef){};
-    instructionTable[0x1] = (CPUTypes::InstructionDef){};
-    instructionTable[0x3] = (CPUTypes::InstructionDef){};
-    instructionTable[0x4] = (CPUTypes::InstructionDef){};
-    instructionTable[0x5] = (CPUTypes::InstructionDef){};
-    instructionTable[0x6] = (CPUTypes::InstructionDef){};
-    instructionTable[0x7] = (CPUTypes::InstructionDef){};
-    instructionTable[0x8] = (CPUTypes::InstructionDef){};
-    instructionTable[0x9] = (CPUTypes::InstructionDef){};
-    instructionTable[0xa] = (CPUTypes::InstructionDef){};
-    instructionTable[0xb] = (CPUTypes::InstructionDef){};
-    instructionTable[0xc] = (CPUTypes::InstructionDef){};
-    instructionTable[0xd] = (CPUTypes::InstructionDef){};
-    instructionTable[0xe] = (CPUTypes::InstructionDef){};
-    instructionTable[0xf] = (CPUTypes::InstructionDef){};
-    instructionTable[0x10] = (CPUTypes::InstructionDef){};
-    instructionTable[0x11] = (CPUTypes::InstructionDef){};
-    instructionTable[0x13] = (CPUTypes::InstructionDef){};
-    instructionTable[0x14] = (CPUTypes::InstructionDef){};
-    instructionTable[0x15] = (CPUTypes::InstructionDef){};
-    instructionTable[0x16] = (CPUTypes::InstructionDef){};
-    instructionTable[0x17] = (CPUTypes::InstructionDef){};
-    instructionTable[0x18] = (CPUTypes::InstructionDef){};
-    instructionTable[0x19] = (CPUTypes::InstructionDef){};
-    instructionTable[0x1a] = (CPUTypes::InstructionDef){};
-    instructionTable[0x1b] = (CPUTypes::InstructionDef){};
-    instructionTable[0x1c] = (CPUTypes::InstructionDef){};
-    instructionTable[0x1d] = (CPUTypes::InstructionDef){};
-    instructionTable[0x1e] = (CPUTypes::InstructionDef){};
-    instructionTable[0x1f] = (CPUTypes::InstructionDef){};
-    instructionTable[0x20] = (CPUTypes::InstructionDef){};
-    instructionTable[0x21] = (CPUTypes::InstructionDef){};
-    instructionTable[0x23] = (CPUTypes::InstructionDef){};
-    instructionTable[0x24] = (CPUTypes::InstructionDef){};
-    instructionTable[0x25] = (CPUTypes::InstructionDef){};
-    instructionTable[0x26] = (CPUTypes::InstructionDef){};
-    instructionTable[0x27] = (CPUTypes::InstructionDef){};
-    instructionTable[0x28] = (CPUTypes::InstructionDef){};
-    instructionTable[0x29] = (CPUTypes::InstructionDef){};
-    instructionTable[0x2a] = (CPUTypes::InstructionDef){};
-    instructionTable[0x2b] = (CPUTypes::InstructionDef){};
-    instructionTable[0x2c] = (CPUTypes::InstructionDef){};
-    instructionTable[0x2d] = (CPUTypes::InstructionDef){};
-    instructionTable[0x2e] = (CPUTypes::InstructionDef){};
-    instructionTable[0x2f] = (CPUTypes::InstructionDef){};
-    instructionTable[0x30] = (CPUTypes::InstructionDef){};
-    instructionTable[0x31] = (CPUTypes::InstructionDef){};
-    instructionTable[0x33] = (CPUTypes::InstructionDef){};
-    instructionTable[0x34] = (CPUTypes::InstructionDef){};
-    instructionTable[0x35] = (CPUTypes::InstructionDef){};
-    instructionTable[0x36] = (CPUTypes::InstructionDef){};
-    instructionTable[0x37] = (CPUTypes::InstructionDef){};
-    instructionTable[0x38] = (CPUTypes::InstructionDef){};
-    instructionTable[0x39] = (CPUTypes::InstructionDef){};
-    instructionTable[0x3a] = (CPUTypes::InstructionDef){};
-    instructionTable[0x3b] = (CPUTypes::InstructionDef){};
-    instructionTable[0x3c] = (CPUTypes::InstructionDef){};
-    instructionTable[0x3d] = (CPUTypes::InstructionDef){};
-    instructionTable[0x3e] = (CPUTypes::InstructionDef){};
-    instructionTable[0x3f] = (CPUTypes::InstructionDef){};
-    instructionTable[0x40] = (CPUTypes::InstructionDef){};
-    instructionTable[0x41] = (CPUTypes::InstructionDef){};
-    instructionTable[0x43] = (CPUTypes::InstructionDef){};
-    instructionTable[0x44] = (CPUTypes::InstructionDef){};
-    instructionTable[0x45] = (CPUTypes::InstructionDef){};
-    instructionTable[0x46] = (CPUTypes::InstructionDef){};
-    instructionTable[0x47] = (CPUTypes::InstructionDef){};
-    instructionTable[0x48] = (CPUTypes::InstructionDef){};
-    instructionTable[0x49] = (CPUTypes::InstructionDef){};
-    instructionTable[0x4a] = (CPUTypes::InstructionDef){};
-    instructionTable[0x4b] = (CPUTypes::InstructionDef){};
-    instructionTable[0x4c] = (CPUTypes::InstructionDef){};
-    instructionTable[0x4d] = (CPUTypes::InstructionDef){};
-    instructionTable[0x4e] = (CPUTypes::InstructionDef){};
-    instructionTable[0x4f] = (CPUTypes::InstructionDef){};
-    instructionTable[0x50] = (CPUTypes::InstructionDef){};
-    instructionTable[0x51] = (CPUTypes::InstructionDef){};
-    instructionTable[0x53] = (CPUTypes::InstructionDef){};
-    instructionTable[0x54] = (CPUTypes::InstructionDef){};
-    instructionTable[0x55] = (CPUTypes::InstructionDef){};
-    instructionTable[0x56] = (CPUTypes::InstructionDef){};
-    instructionTable[0x57] = (CPUTypes::InstructionDef){};
-    instructionTable[0x58] = (CPUTypes::InstructionDef){};
-    instructionTable[0x59] = (CPUTypes::InstructionDef){};
-    instructionTable[0x5a] = (CPUTypes::InstructionDef){};
-    instructionTable[0x5b] = (CPUTypes::InstructionDef){};
-    instructionTable[0x5c] = (CPUTypes::InstructionDef){};
-    instructionTable[0x5d] = (CPUTypes::InstructionDef){};
-    instructionTable[0x5e] = (CPUTypes::InstructionDef){};
-    instructionTable[0x5f] = (CPUTypes::InstructionDef){};
-    instructionTable[0x60] = (CPUTypes::InstructionDef){};
-    instructionTable[0x61] = (CPUTypes::InstructionDef){};
-    instructionTable[0x63] = (CPUTypes::InstructionDef){};
-    instructionTable[0x64] = (CPUTypes::InstructionDef){};
-    instructionTable[0x65] = (CPUTypes::InstructionDef){};
-    instructionTable[0x66] = (CPUTypes::InstructionDef){};
-    instructionTable[0x67] = (CPUTypes::InstructionDef){};
-    instructionTable[0x68] = (CPUTypes::InstructionDef){};
-    instructionTable[0x69] = (CPUTypes::InstructionDef){};
-    instructionTable[0x6a] = (CPUTypes::InstructionDef){};
-    instructionTable[0x6b] = (CPUTypes::InstructionDef){};
-    instructionTable[0x6c] = (CPUTypes::InstructionDef){};
-    instructionTable[0x6d] = (CPUTypes::InstructionDef){};
-    instructionTable[0x6e] = (CPUTypes::InstructionDef){};
-    instructionTable[0x6f] = (CPUTypes::InstructionDef){};
-    instructionTable[0x70] = (CPUTypes::InstructionDef){};
-    instructionTable[0x71] = (CPUTypes::InstructionDef){};
-    instructionTable[0x73] = (CPUTypes::InstructionDef){};
-    instructionTable[0x74] = (CPUTypes::InstructionDef){};
-    instructionTable[0x75] = (CPUTypes::InstructionDef){};
-    instructionTable[0x76] = (CPUTypes::InstructionDef){};
-    instructionTable[0x77] = (CPUTypes::InstructionDef){};
-    instructionTable[0x78] = (CPUTypes::InstructionDef){};
-    instructionTable[0x79] = (CPUTypes::InstructionDef){};
-    instructionTable[0x7a] = (CPUTypes::InstructionDef){};
-    instructionTable[0x7b] = (CPUTypes::InstructionDef){};
-    instructionTable[0x7c] = (CPUTypes::InstructionDef){};
-    instructionTable[0x7d] = (CPUTypes::InstructionDef){};
-    instructionTable[0x7e] = (CPUTypes::InstructionDef){};
-    instructionTable[0x7f] = (CPUTypes::InstructionDef){};
-    instructionTable[0x80] = (CPUTypes::InstructionDef){};
-    instructionTable[0x81] = (CPUTypes::InstructionDef){};
-    instructionTable[0x82] = (CPUTypes::InstructionDef){};
-    instructionTable[0x83] = (CPUTypes::InstructionDef){};
-    instructionTable[0x84] = (CPUTypes::InstructionDef){};
-    instructionTable[0x85] = (CPUTypes::InstructionDef){};
-    instructionTable[0x86] = (CPUTypes::InstructionDef){};
-    instructionTable[0x87] = (CPUTypes::InstructionDef){};
-    instructionTable[0x88] = (CPUTypes::InstructionDef){};
-    instructionTable[0x89] = (CPUTypes::InstructionDef){};
-    instructionTable[0x8a] = (CPUTypes::InstructionDef){};
-    instructionTable[0x8b] = (CPUTypes::InstructionDef){};
-    instructionTable[0x8c] = (CPUTypes::InstructionDef){};
-    instructionTable[0x8d] = (CPUTypes::InstructionDef){};
-    instructionTable[0x8e] = (CPUTypes::InstructionDef){};
-    instructionTable[0x8f] = (CPUTypes::InstructionDef){};
-    instructionTable[0x90] = (CPUTypes::InstructionDef){};
-    instructionTable[0x91] = (CPUTypes::InstructionDef){};
-    instructionTable[0x93] = (CPUTypes::InstructionDef){};
-    instructionTable[0x94] = (CPUTypes::InstructionDef){};
-    instructionTable[0x95] = (CPUTypes::InstructionDef){};
-    instructionTable[0x96] = (CPUTypes::InstructionDef){};
-    instructionTable[0x97] = (CPUTypes::InstructionDef){};
-    instructionTable[0x98] = (CPUTypes::InstructionDef){};
-    instructionTable[0x99] = (CPUTypes::InstructionDef){};
-    instructionTable[0x9a] = (CPUTypes::InstructionDef){};
-    instructionTable[0x9b] = (CPUTypes::InstructionDef){};
-    instructionTable[0x9c] = (CPUTypes::InstructionDef){};
-    instructionTable[0x9d] = (CPUTypes::InstructionDef){};
-    instructionTable[0x9e] = (CPUTypes::InstructionDef){};
-    instructionTable[0x9f] = (CPUTypes::InstructionDef){};
-    instructionTable[0xa0] = (CPUTypes::InstructionDef){};
-    instructionTable[0xa1] = (CPUTypes::InstructionDef){};
-    instructionTable[0xa2] = (CPUTypes::InstructionDef){};
-    instructionTable[0xa3] = (CPUTypes::InstructionDef){};
-    instructionTable[0xa4] = (CPUTypes::InstructionDef){};
-    instructionTable[0xa5] = (CPUTypes::InstructionDef){};
-    instructionTable[0xa6] = (CPUTypes::InstructionDef){};
-    instructionTable[0xa7] = (CPUTypes::InstructionDef){};
-    instructionTable[0xa8] = (CPUTypes::InstructionDef){};
-    instructionTable[0xa9] = (CPUTypes::InstructionDef){};
-    instructionTable[0xaa] = (CPUTypes::InstructionDef){};
-    instructionTable[0xab] = (CPUTypes::InstructionDef){};
-    instructionTable[0xac] = (CPUTypes::InstructionDef){};
-    instructionTable[0xad] = (CPUTypes::InstructionDef){};
-    instructionTable[0xae] = (CPUTypes::InstructionDef){};
-    instructionTable[0xaf] = (CPUTypes::InstructionDef){};
-    instructionTable[0xb0] = (CPUTypes::InstructionDef){};
-    instructionTable[0xb1] = (CPUTypes::InstructionDef){};
-    instructionTable[0xb3] = (CPUTypes::InstructionDef){};
-    instructionTable[0xb4] = (CPUTypes::InstructionDef){};
-    instructionTable[0xb5] = (CPUTypes::InstructionDef){};
-    instructionTable[0xb6] = (CPUTypes::InstructionDef){};
-    instructionTable[0xb7] = (CPUTypes::InstructionDef){};
-    instructionTable[0xb8] = (CPUTypes::InstructionDef){};
-    instructionTable[0xb9] = (CPUTypes::InstructionDef){};
-    instructionTable[0xba] = (CPUTypes::InstructionDef){};
-    instructionTable[0xbb] = (CPUTypes::InstructionDef){};
-    instructionTable[0xbc] = (CPUTypes::InstructionDef){};
-    instructionTable[0xbd] = (CPUTypes::InstructionDef){};
-    instructionTable[0xbe] = (CPUTypes::InstructionDef){};
-    instructionTable[0xbf] = (CPUTypes::InstructionDef){};
-    instructionTable[0xc0] = (CPUTypes::InstructionDef){};
-    instructionTable[0xc1] = (CPUTypes::InstructionDef){};
-    instructionTable[0xc2] = (CPUTypes::InstructionDef){};
-    instructionTable[0xc3] = (CPUTypes::InstructionDef){};
-    instructionTable[0xc4] = (CPUTypes::InstructionDef){};
-    instructionTable[0xc5] = (CPUTypes::InstructionDef){};
-    instructionTable[0xc6] = (CPUTypes::InstructionDef){};
-    instructionTable[0xc7] = (CPUTypes::InstructionDef){};
-    instructionTable[0xc8] = (CPUTypes::InstructionDef){};
-    instructionTable[0xc9] = (CPUTypes::InstructionDef){};
-    instructionTable[0xca] = (CPUTypes::InstructionDef){};
-    instructionTable[0xcb] = (CPUTypes::InstructionDef){};
-    instructionTable[0xcc] = (CPUTypes::InstructionDef){};
-    instructionTable[0xcd] = (CPUTypes::InstructionDef){};
-    instructionTable[0xce] = (CPUTypes::InstructionDef){};
-    instructionTable[0xcf] = (CPUTypes::InstructionDef){};
-    instructionTable[0xd0] = (CPUTypes::InstructionDef){};
-    instructionTable[0xd1] = (CPUTypes::InstructionDef){};
-    instructionTable[0xd3] = (CPUTypes::InstructionDef){};
-    instructionTable[0xd4] = (CPUTypes::InstructionDef){};
-    instructionTable[0xd5] = (CPUTypes::InstructionDef){};
-    instructionTable[0xd6] = (CPUTypes::InstructionDef){};
-    instructionTable[0xd7] = (CPUTypes::InstructionDef){};
-    instructionTable[0xd8] = (CPUTypes::InstructionDef){};
-    instructionTable[0xd9] = (CPUTypes::InstructionDef){};
-    instructionTable[0xda] = (CPUTypes::InstructionDef){};
-    instructionTable[0xdb] = (CPUTypes::InstructionDef){};
-    instructionTable[0xdc] = (CPUTypes::InstructionDef){};
-    instructionTable[0xdd] = (CPUTypes::InstructionDef){};
-    instructionTable[0xde] = (CPUTypes::InstructionDef){};
-    instructionTable[0xdf] = (CPUTypes::InstructionDef){};
-    instructionTable[0xe0] = (CPUTypes::InstructionDef){};
-    instructionTable[0xe1] = (CPUTypes::InstructionDef){};
-    instructionTable[0xe2] = (CPUTypes::InstructionDef){};
-    instructionTable[0xe3] = (CPUTypes::InstructionDef){};
-    instructionTable[0xe4] = (CPUTypes::InstructionDef){};
-    instructionTable[0xe5] = (CPUTypes::InstructionDef){};
-    instructionTable[0xe6] = (CPUTypes::InstructionDef){};
-    instructionTable[0xe7] = (CPUTypes::InstructionDef){};
-    instructionTable[0xe8] = (CPUTypes::InstructionDef){};
-    instructionTable[0xe9] = (CPUTypes::InstructionDef){};
-    instructionTable[0xea] = (CPUTypes::InstructionDef){};
-    instructionTable[0xeb] = (CPUTypes::InstructionDef){};
-    instructionTable[0xec] = (CPUTypes::InstructionDef){};
-    instructionTable[0xed] = (CPUTypes::InstructionDef){};
-    instructionTable[0xee] = (CPUTypes::InstructionDef){};
-    instructionTable[0xef] = (CPUTypes::InstructionDef){};
-    instructionTable[0xf0] = (CPUTypes::InstructionDef){};
-    instructionTable[0xf1] = (CPUTypes::InstructionDef){};
-    instructionTable[0xf3] = (CPUTypes::InstructionDef){};
-    instructionTable[0xf4] = (CPUTypes::InstructionDef){};
-    instructionTable[0xf5] = (CPUTypes::InstructionDef){};
-    instructionTable[0xf6] = (CPUTypes::InstructionDef){};
-    instructionTable[0xf7] = (CPUTypes::InstructionDef){};
-    instructionTable[0xf8] = (CPUTypes::InstructionDef){};
-    instructionTable[0xf9] = (CPUTypes::InstructionDef){};
-    instructionTable[0xfa] = (CPUTypes::InstructionDef){};
-    instructionTable[0xfb] = (CPUTypes::InstructionDef){};
-    instructionTable[0xfc] = (CPUTypes::InstructionDef){};
-    instructionTable[0xfd] = (CPUTypes::InstructionDef){};
-    instructionTable[0xfe] = (CPUTypes::InstructionDef){};
-    instructionTable[0xff] = (CPUTypes::InstructionDef){};
 
+    instructionTable[0x61] = {2, 6, std::bind(&CPU::ADC, this)};
+    instructionTable[0x65] = {2, 3, std::bind(&CPU::ADC, this)};
+    instructionTable[0x69] = {2, 2, std::bind(&CPU::ADC, this)};
+    instructionTable[0x6D] = {3, 4, std::bind(&CPU::ADC, this)};
+    instructionTable[0x71] = {2, 5, std::bind(&CPU::ADC, this)};
+    instructionTable[0x75] = {2, 4, std::bind(&CPU::ADC, this)};
+    instructionTable[0x79] = {3, 4, std::bind(&CPU::ADC, this)};
+    instructionTable[0x7D] = {3, 4, std::bind(&CPU::ADC, this)};
+
+    instructionTable[0x21] = {2, 6, std::bind(&CPU::AND, this)};
+    instructionTable[0x25] = {2, 3, std::bind(&CPU::AND, this)};
+    instructionTable[0x29] = {2, 2, std::bind(&CPU::AND, this)};
+    instructionTable[0x2D] = {3, 4, std::bind(&CPU::AND, this)};
+    instructionTable[0x31] = {2, 5, std::bind(&CPU::AND, this)};
+    instructionTable[0x35] = {2, 4, std::bind(&CPU::AND, this)};
+    instructionTable[0x39] = {3, 4, std::bind(&CPU::AND, this)};
+    instructionTable[0x3D] = {3, 4, std::bind(&CPU::AND, this)};
+    
+    instructionTable[0x06] = {2, 5, std::bind(&CPU::ASL, this)};
+    instructionTable[0x0A] = {1, 2, std::bind(&CPU::ASL, this)};
+    instructionTable[0x0E] = {3, 6, std::bind(&CPU::ASL, this)};
+    instructionTable[0x16] = {2, 6, std::bind(&CPU::ASL, this)};
+    instructionTable[0x1E] = {3, 7, std::bind(&CPU::ASL, this)};
+    
+    instructionTable[0x90] = {2, 2, std::bind(&CPU::BCC, this)};
+    
+    instructionTable[0xB0] = {2, 2, std::bind(&CPU::BCS, this)};
+    
+    instructionTable[0xF0] = {2, 2, std::bind(&CPU::BEQ, this)};
+    
+    instructionTable[0x24] = {2, 3, std::bind(&CPU::BIT, this)};
+    instructionTable[0x2C] = {3, 4, std::bind(&CPU::BIT, this)};
+    
+    instructionTable[0x30] = {2, 2, std::bind(&CPU::BMI, this)};
+    
+    instructionTable[0xD0] = {2, 2, std::bind(&CPU::BNE, this)};
+    
+    instructionTable[0x10] = {2, 2, std::bind(&CPU::BPL, this)};
+    
+    instructionTable[0x00] = {1, 7, std::bind(&CPU::BRK, this)};
+    
+    instructionTable[0x50] = {2, 2, std::bind(&CPU::BVC, this)};
+    
+    instructionTable[0x70] = {2, 2, std::bind(&CPU::BVS, this)};
+    
+    instructionTable[0x18] = {1, 2, std::bind(&CPU::CLC, this)};
+    
+    instructionTable[0xD8] = {1, 2, std::bind(&CPU::CLD, this)};
+    
+    instructionTable[0x58] = {1, 2, std::bind(&CPU::CLI, this)};
+    
+    instructionTable[0xB8] = {1, 2, std::bind(&CPU::CLV, this)};
+    
+    instructionTable[0xC1] = {2, 6, std::bind(&CPU::CMP, this)};
+    instructionTable[0xC5] = {2, 3, std::bind(&CPU::CMP, this)};
+    instructionTable[0xC9] = {2, 2, std::bind(&CPU::CMP, this)};
+    instructionTable[0xCD] = {3, 4, std::bind(&CPU::CMP, this)};
+    instructionTable[0xD1] = {2, 5, std::bind(&CPU::CMP, this)};
+    instructionTable[0xD5] = {2, 4, std::bind(&CPU::CMP, this)};
+    instructionTable[0xD9] = {3, 4, std::bind(&CPU::CMP, this)};
+    instructionTable[0xDD] = {3, 4, std::bind(&CPU::CMP, this)};
+    
+    instructionTable[0xE0] = {2, 2, std::bind(&CPU::CPX, this)};
+    instructionTable[0xE4] = {2, 3, std::bind(&CPU::CPX, this)};
+    instructionTable[0xEC] = {3, 4, std::bind(&CPU::CPX, this)};
+
+    instructionTable[0xC0] = {2, 2, std::bind(&CPU::CPY, this)};
+    instructionTable[0xC4] = {2, 3, std::bind(&CPU::CPY, this)};
+    instructionTable[0xCC] = {3, 4, std::bind(&CPU::CPY, this)};
+    
+    instructionTable[0xC6] = {2, 5, std::bind(&CPU::DEC, this)};
+    instructionTable[0xCE] = {3, 6, std::bind(&CPU::DEC, this)};
+    instructionTable[0xD6] = {2, 6, std::bind(&CPU::DEC, this)};
+    instructionTable[0xDE] = {3, 7, std::bind(&CPU::DEC, this)};
+    
+    instructionTable[0xCA] = {1, 2, std::bind(&CPU::DEX, this)};
+    
+    instructionTable[0x88] = {1, 2, std::bind(&CPU::DEY, this)};
+    
+    instructionTable[0x41] = {2, 6, std::bind(&CPU::EOR, this)};
+    instructionTable[0x45] = {2, 3, std::bind(&CPU::EOR, this)};
+    instructionTable[0x49] = {2, 2, std::bind(&CPU::EOR, this)};
+    instructionTable[0x4D] = {3, 4, std::bind(&CPU::EOR, this)};
+    instructionTable[0x51] = {2, 5, std::bind(&CPU::EOR, this)};
+    instructionTable[0x55] = {2, 4, std::bind(&CPU::EOR, this)};
+    instructionTable[0x59] = {3, 4, std::bind(&CPU::EOR, this)};
+    instructionTable[0x5D] = {3, 4, std::bind(&CPU::EOR, this)};
+    
+    instructionTable[0xE6] = {2, 5, std::bind(&CPU::INC, this)};
+    instructionTable[0xEE] = {3, 6, std::bind(&CPU::INC, this)};
+    instructionTable[0xF6] = {2, 6, std::bind(&CPU::INC, this)};
+    instructionTable[0xFE] = {3, 7, std::bind(&CPU::INC, this)};
+    
+    instructionTable[0xE8] = {1, 2, std::bind(&CPU::INX, this)};
+    
+    instructionTable[0xC8] = {1, 2, std::bind(&CPU::INY, this)};
+    
+    instructionTable[0x4C] = {3, 3, std::bind(&CPU::JMP, this)};
+    instructionTable[0x6C] = {3, 5, std::bind(&CPU::JMP, this)};
+    
+    instructionTable[0x20] = {3, 6, std::bind(&CPU::JSR, this)};
+    
+    instructionTable[0xA1] = {2, 6, std::bind(&CPU::LDA, this)};
+    instructionTable[0xA5] = {2, 3, std::bind(&CPU::LDA, this)};
+    instructionTable[0xA9] = {2, 2, std::bind(&CPU::LDA, this)};
+    instructionTable[0xAD] = {3, 4, std::bind(&CPU::LDA, this)};
+    instructionTable[0xB1] = {2, 5, std::bind(&CPU::LDA, this)};
+    instructionTable[0xB5] = {2, 4, std::bind(&CPU::LDA, this)};
+    instructionTable[0xB9] = {3, 4, std::bind(&CPU::LDA, this)};
+    instructionTable[0xBD] = {3, 4, std::bind(&CPU::LDA, this)};
+    
+    instructionTable[0xA2] = {2, 2, std::bind(&CPU::LDX, this)};
+    instructionTable[0xA6] = {2, 3, std::bind(&CPU::LDX, this)};
+    instructionTable[0xAE] = {3, 4, std::bind(&CPU::LDX, this)};
+    instructionTable[0xB6] = {2, 4, std::bind(&CPU::LDX, this)};
+    instructionTable[0xBE] = {3, 4, std::bind(&CPU::LDX, this)};
+    
+    instructionTable[0xA0] = {2, 2, std::bind(&CPU::LDY, this)};
+    instructionTable[0xA4] = {2, 3, std::bind(&CPU::LDY, this)};
+    instructionTable[0xAC] = {3, 4, std::bind(&CPU::LDY, this)};
+    instructionTable[0xB4] = {2, 4, std::bind(&CPU::LDY, this)};
+    instructionTable[0xBC] = {3, 4, std::bind(&CPU::LDY, this)};
+    
+    instructionTable[0x46] = {2, 5, std::bind(&CPU::LSR, this)};
+    instructionTable[0x4A] = {1, 2, std::bind(&CPU::LSR, this)};
+    instructionTable[0x4E] = {3, 6, std::bind(&CPU::LSR, this)};
+    instructionTable[0x56] = {2, 6, std::bind(&CPU::LSR, this)};
+    instructionTable[0x5E] = {3, 7, std::bind(&CPU::LSR, this)};
+    
+    instructionTable[0xEA] = {1, 2, std::bind(&CPU::NOP, this)};
+
+    instructionTable[0x01] = {2, 6, std::bind(&CPU::ORA, this)};
+    instructionTable[0x05] = {2, 3, std::bind(&CPU::ORA, this)};
+    instructionTable[0x09] = {2, 2, std::bind(&CPU::ORA, this)};
+    instructionTable[0x0D] = {3, 4, std::bind(&CPU::ORA, this)};
+    instructionTable[0x11] = {2, 5, std::bind(&CPU::ORA, this)};
+    instructionTable[0x15] = {2, 4, std::bind(&CPU::ORA, this)};
+    instructionTable[0x19] = {3, 4, std::bind(&CPU::ORA, this)};
+    instructionTable[0x1D] = {3, 4, std::bind(&CPU::ORA, this)};
+
+    instructionTable[0x48] = {1, 3, std::bind(&CPU::PHA, this)};
+    
+    instructionTable[0x08] = {1, 3, std::bind(&CPU::PHP, this)};
+    
+    instructionTable[0x68] = {1, 4, std::bind(&CPU::PLA, this)};
+    
+    instructionTable[0x28] = {1, 4, std::bind(&CPU::PLP, this)};
+    
+    instructionTable[0x26] = {2, 5, std::bind(&CPU::ROL, this)};
+    instructionTable[0x2A] = {1, 2, std::bind(&CPU::ROL, this)};
+    instructionTable[0x2E] = {3, 6, std::bind(&CPU::ROL, this)};
+    instructionTable[0x36] = {2, 6, std::bind(&CPU::ROL, this)};
+    instructionTable[0x3E] = {3, 7, std::bind(&CPU::ROL, this)};
+    
+    instructionTable[0x66] = {2, 5, std::bind(&CPU::ROR, this)};
+    instructionTable[0x6A] = {1, 2, std::bind(&CPU::ROR, this)};
+    instructionTable[0x6E] = {3, 6, std::bind(&CPU::ROR, this)};
+    instructionTable[0x76] = {2, 6, std::bind(&CPU::ROR, this)};
+    instructionTable[0x7E] = {3, 7, std::bind(&CPU::ROR, this)};
+    
+    instructionTable[0x40] = {1, 6, std::bind(&CPU::RTI, this)};
+    
+    instructionTable[0x60] = {1, 6, std::bind(&CPU::RTS, this)};
+    
+    instructionTable[0x38] = {1, 2, std::bind(&CPU::SEC, this)};
+    instructionTable[0xE1] = {2, 6, std::bind(&CPU::SBC, this)};
+    instructionTable[0xE5] = {2, 3, std::bind(&CPU::SBC, this)};
+    instructionTable[0xE9] = {2, 2, std::bind(&CPU::SBC, this)};
+    instructionTable[0xED] = {3, 4, std::bind(&CPU::SBC, this)};
+    instructionTable[0xF1] = {2, 5, std::bind(&CPU::SBC, this)};
+    instructionTable[0xF5] = {2, 4, std::bind(&CPU::SBC, this)};
+    instructionTable[0xF9] = {3, 4, std::bind(&CPU::SBC, this)};
+    instructionTable[0xFD] = {3, 4, std::bind(&CPU::SBC, this)};
+    
+    instructionTable[0xF8] = {1, 2, std::bind(&CPU::SED, this)};
+    
+    instructionTable[0x78] = {1, 2, std::bind(&CPU::SEI, this)};
+    
+    instructionTable[0x81] = {2, 6, std::bind(&CPU::STA, this)};
+    instructionTable[0x85] = {2, 3, std::bind(&CPU::STA, this)};
+    instructionTable[0x8d] = {3, 4, std::bind(&CPU::STA, this)};
+    instructionTable[0x91] = {2, 6, std::bind(&CPU::STA, this)};
+    instructionTable[0x95] = {2, 4, std::bind(&CPU::STA, this)};
+    instructionTable[0x99] = {3, 5, std::bind(&CPU::STA, this)};
+    instructionTable[0x9d] = {3, 5, std::bind(&CPU::STA, this)};
+    
+    instructionTable[0x86] = {2, 3, std::bind(&CPU::STX, this)};
+    instructionTable[0x8e] = {3, 4, std::bind(&CPU::STX, this)};
+    instructionTable[0x96] = {2, 4, std::bind(&CPU::STX, this)};
+    
+    instructionTable[0x84] = {2, 3, std::bind(&CPU::STY, this)};
+    instructionTable[0x8c] = {3, 4, std::bind(&CPU::STY, this)};
+    instructionTable[0x94] = {2, 4, std::bind(&CPU::STY, this)};
+    
+    instructionTable[0xAA] = {1, 2, std::bind(&CPU::TAX, this)};
+    
+    instructionTable[0xa8] = {1, 2, std::bind(&CPU::TAY, this)};
+    
+    instructionTable[0xba] = {1, 2, std::bind(&CPU::TSX, this)};
+    
+    instructionTable[0x8a] = {1, 2, std::bind(&CPU::TXA, this)};
+    
+    instructionTable[0x9A] = {1, 2, std::bind(&CPU::TXS, this)};
+    
+    instructionTable[0x98] = {1, 2, std::bind(&CPU::TYA, this)};
 }
-
 
 void CPU::printRegisters() {
     std::cout << "A " << std::hex << (unsigned)registers.A << '\n';
@@ -358,7 +318,10 @@ void CPU::BVC() {}
 void CPU::BVS() {}
 
 // Jump
-void CPU::BRK() {}
+void CPU::BRK() {
+    std::cout << "brk" << std::endl;
+}
+
 void CPU::JMP() {}
 void CPU::JSR() {}
 void CPU::RTI() {}
@@ -383,4 +346,6 @@ void CPU::SEI() {}
 
 // Other
 void CPU::NOP() {}
+
+
 

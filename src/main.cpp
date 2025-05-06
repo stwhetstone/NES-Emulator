@@ -5,6 +5,8 @@
 
 int main() {
     NES nes;
+
+    nes.cpu.instructionTable[0].fnc();
     
     return 0;
 }
