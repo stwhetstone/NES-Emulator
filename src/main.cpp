@@ -1,7 +1,10 @@
 #include <iostream>
 
-int main() {
-    std::cout << "a" << std::endl;
+#include "NES.hpp"
+#include "CPU.hpp"
 
+int main() {
+    NES nes;
+    
     return 0;
 }

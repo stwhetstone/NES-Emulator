@@ -9,4 +9,4 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/$<CONFIGURATION>")
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/$<CONFIGURATION>")
 
 # Create your game executable target as usual
-add_executable(main src/main.cpp src/NES.cpp src/CPU.cpp src/ROM.cpp)
+add_executable(main src/main.cpp src/NES.cpp src/CPU.cpp src/ROM.cpp src/types.hpp)
