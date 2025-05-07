@@ -5,14 +5,12 @@
 #ifndef TYPES_H
 #define TYPES_H
 
-
 namespace NESTypes {
     typedef struct Bus {
         uint8_t data;
         uint16_t address;
     } Bus;
 };
-
 
 namespace CPUTypes {
     typedef struct RegList {
