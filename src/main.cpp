@@ -2,11 +2,14 @@
 
 #include "NES.hpp"
 #include "CPU.hpp"
+#include "ROM.hpp"
 
-int main() {
+int main(int argc, char** argv) {
     NES nes;
 
-    nes.cpu.instructionTable[0].fnc();
-    
+    if(argc == 2) {
+        NES::hexStringFileToHexFile(argv[1]);
+    }
+
     return 0;
 }

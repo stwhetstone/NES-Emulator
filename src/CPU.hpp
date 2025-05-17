@@ -16,7 +16,7 @@ class CPU {
         CPUTypes::RegList registers;
         NESTypes::Bus &bus;
 
-        uint8_t stepCycles;
+        uint8_t cyclesRemaining;
 
 
         CPU(NESTypes::Bus &b);

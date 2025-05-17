@@ -17,7 +17,7 @@ CPU::CPU(NESTypes::Bus &b) : bus(b) {
 
     registers.PC = 0xfffc;
  
-    stepCycles = 0;
+    cyclesRemaining = 0;
 
     initInstructionTable();
 }
