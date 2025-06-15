@@ -3,3 +3,4 @@ build
 !.gitignore
 *.exe
 *.nes
+c.txt

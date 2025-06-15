@@ -1,5 +1,5 @@
 #include <string>
-#include <vector>
+#include <array>
 
 #include "types.hpp"
 
@@ -9,9 +9,12 @@
 class ROM {
     public:
         NESTypes::Bus &bus;
-        std::vector<int> data;
+        std::array<uint8_t, 0xbfe0> data;
 
         ROM(NESTypes::Bus &b);
+
+        void busLoadByte();
+        void loadFileData(std::string fileName);
 };
 
 #endif

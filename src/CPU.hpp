@@ -17,16 +17,23 @@ class CPU {
         NESTypes::Bus &bus;
 
         uint8_t cyclesRemaining;
-
+        uint8_t resetVector[2];
+        std::array<uint16_t, 3> instruction;
 
         CPU(NESTypes::Bus &b);
 
         uint8_t getFlagValue(CPUTypes::Flags f);
 
+        void executeInstruction();
+        void incrementPC();
         void initInstructionTable();
         void printRegisters();
         void setFlagValue(CPUTypes::Flags f, uint8_t b);
-        void step();
+
+        void busLoadPC();
+        void busStoreInstruction(int i);
+        void busStoreResetVector();
+
 
         // Instructions 
         // Access

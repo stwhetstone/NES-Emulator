@@ -19,6 +19,12 @@ class NES {
 
         NES();
 
+        void init();
+        void mainLoop();
+
+        void loadCPUInstruction();
+        void storeCPUProgramStart();
+
         // standin for an eventual assembler
         static void hexStringFileToHexFile(std::string filename);
 };
