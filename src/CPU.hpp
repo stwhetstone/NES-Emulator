@@ -13,26 +13,32 @@ class CPU {
     public:
         std::vector<CPUTypes::InstructionDef> instructionTable;
 
-        CPUTypes::RegList registers;
+        CPUTypes::Registers registers;
         NESTypes::Bus &bus;
 
         uint8_t cyclesRemaining;
         uint8_t resetVector[2];
         std::array<uint16_t, 3> instruction;
 
+
         CPU(NESTypes::Bus &b);
 
-        uint8_t getFlagValue(CPUTypes::Flags f);
+        void initInstructionTable();
+
+        uint8_t getFlagValue(CPUTypes::Flag f);
+        void setFlagValue(CPUTypes::Flag f, uint8_t byte);
 
         void executeInstruction();
+        void flattenInstructionAddress();
         void incrementPC();
-        void initInstructionTable();
         void printRegisters();
-        void setFlagValue(CPUTypes::Flags f, uint8_t b);
 
-        void busLoadPC();
-        void busStoreInstruction(int i);
-        void busStoreResetVector();
+        void aLoadInstructionAddress();
+        void aLoadPC();
+        void aStoreResetVector();
+
+        void dLoadRegister(CPUTypes::RegisterName r);
+        void dStoreInstruction(int i);
 
 
         // Instructions 

@@ -24,6 +24,7 @@ CPU::CPU(NESTypes::Bus &b) : bus(b) {
     initInstructionTable();
 }
 
+
 void CPU::initInstructionTable() {
     instructionTable.reserve(0xff);
 
@@ -293,53 +294,16 @@ void CPU::initInstructionTable() {
 }
 
 
-void CPU::printRegisters() {
-    std::cout << "A " << std::hex << (unsigned)registers.A << '\n';
-    std::cout << "X " << std::hex << (unsigned)registers.X << '\n';
-    std::cout << "Y " << std::hex << (unsigned)registers.X << '\n';
-    std::cout << "SP " << std::hex << (unsigned)registers.X << '\n';
-    std::cout << "Status ";
-    
-    for(int i = 7; i >= 0; i--) {
-        if(i == 3) {
-            std::cout << ' ';
-        }
-        std::cout << ((registers.status & (1 << i)) >> i);
-    }
-    
-    std::cout << '\n';
-    std::cout << "PC " << (unsigned)registers.X << std::endl;
-}
-
-
-uint8_t CPU::getFlagValue(CPUTypes::Flags f) {
+uint8_t CPU::getFlagValue(CPUTypes::Flag f) {
     return (registers.status & (1 << f)) >> f;
 }
 
-void CPU::setFlagValue(CPUTypes::Flags f, uint8_t b) {
-    if(b == 0 || f == CPUTypes::Flags::ONE) {
+void CPU::setFlagValue(CPUTypes::Flag f, uint8_t byte) {
+    if(byte == 0 || f == CPUTypes::Flag::ONE) {
         return;
     }
 
-    registers.status |= b << f;
-}
-
-
-void CPU::busLoadPC() {
-    bus.address = registers.PC;
-}
-
-void CPU::busStoreResetVector() {
-    if(registers.PC != 0xfffc) {
-        resetVector[0] = bus.data;
-        return;
-    }
-
-    resetVector[1] = bus.data;
-}
-
-void CPU::busStoreInstruction(int i) {
-    instruction[i] = bus.data;
+    registers.status |= byte << f;
 }
 
 
@@ -354,9 +318,72 @@ void CPU::executeInstruction() {
     instructionTable[opcode].fnc();
 }
 
+void CPU::flattenInstructionAddress() {
+    instruction[1] = ((instruction[2] << 8) | instruction[1]);
+    instruction[2] = 0;
+}
 
 void CPU::incrementPC() {
     registers.PC++;
+}
+
+void CPU::printRegisters() {
+    std::cout << "A " << std::hex << (unsigned)registers.A << '\n';
+    std::cout << "X " << std::hex << (unsigned)registers.X << '\n';
+    std::cout << "Y " << std::hex << (unsigned)registers.Y << '\n';
+    std::cout << "SP " << std::hex << (unsigned)registers.SP << '\n';
+    std::cout << "Status ";
+    
+    for(int i = 7; i >= 0; i--) {
+        if(i == 3) {
+            std::cout << ' ';
+        }
+        std::cout << ((registers.status & (1 << i)) >> i);
+    }
+    
+    std::cout << '\n';
+    std::cout << "PC " << std::hex << (unsigned)registers.PC << std::endl;
+}
+
+
+void CPU::aLoadInstructionAddress() {
+    bus.address = instruction[1];
+}
+
+void CPU::aLoadPC() {
+    bus.address = registers.PC;
+}
+
+void CPU::aStoreResetVector() {
+    if(registers.PC != 0xfffc) {
+        resetVector[0] = bus.data;
+        return;
+    }
+
+    resetVector[1] = bus.data;
+}
+
+void CPU::dLoadRegister(CPUTypes::RegisterName r) {
+    switch(r) {
+        case CPUTypes::RegisterName::A:
+            bus.data = registers.A;
+            break;
+        case CPUTypes::RegisterName::X:
+            bus.data = registers.X;
+            break;
+        case CPUTypes::RegisterName::Y:
+            bus.data = registers.Y;
+            break;
+        case CPUTypes::RegisterName::SP:
+            bus.data = registers.SP;
+            break;
+        default:
+            break;
+    }
+}
+
+void CPU::dStoreInstruction(int i) {
+    instruction[i] = bus.data;
 }
 
 

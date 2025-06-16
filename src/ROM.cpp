@@ -8,7 +8,7 @@ ROM::ROM(NESTypes::Bus &b) : bus(b) {
     ;
 }
 
-void ROM::loadFileData(std::string fileName) {
+void ROM::getFileData(std::string fileName) {
     std::ifstream inf(fileName.c_str(), std::ifstream::binary);
 
     char buf;
@@ -22,7 +22,8 @@ void ROM::loadFileData(std::string fileName) {
 }
 
 
-void ROM::busLoadByte() {
+void ROM::dLoadByteAtAddress() {
+    // rom memory space starts at 0x4020
     uint16_t pc = bus.address - 0x4020;
 
     bus.data = this->data[pc];

@@ -13,8 +13,9 @@ class ROM {
 
         ROM(NESTypes::Bus &b);
 
-        void busLoadByte();
-        void loadFileData(std::string fileName);
+        void getFileData(std::string fileName);
+
+        void dLoadByteAtAddress();
 };
 
 #endif

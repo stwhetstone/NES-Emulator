@@ -12,31 +12,67 @@ NES::NES() : cpu(this->bus), rom(this->bus) {
     bus = {0, 0, 1};
 }
 
-void NES::init() {
-    storeCPUProgramStart();
 
-    ram[0x5ff] = 0xbb;
+void NES::init() {
+    handleCpuPcStart();
+
+    ram[0x5ff] = 0xbe;
 }
 
-void NES::mainLoop() {
-    loadCPUInstruction();
-    uint16_t address = cpu.instruction[1];
 
+void NES::mainLoop() {
+    handleCpuGetNextInstruction();
+
+    uint16_t address = bus.address;
     if(bus.rwSignal == 1 && address >= 0 && address <= 0x7ff) {
-        bus.data = ram[cpu.instruction[1]];
+        bus.data = ram[address];
     }
     
     cpu.executeInstruction();
+    cpu.printRegisters();
+
+    if(bus.rwSignal == 0 && address >= 0 && address <= 0x7ff) {
+        ram[address] = bus.data;
+    }
 }
 
 
-void NES::storeCPUProgramStart() {
+void NES::handleCpuGetNextInstruction() {
+    cpu.aLoadPC();
+    rom.dLoadByteAtAddress();
+
+    // get opcode
+    uint8_t size = cpu.instructionTable[bus.data].size;
+    cpu.dStoreInstruction(0);
+    cpu.incrementPC();
+
+    // get instruction arguments
+    for(int i = 1; i < size; i++) {
+        cpu.aLoadPC();
+        rom.dLoadByteAtAddress();
+        cpu.dStoreInstruction(i);
+
+        cpu.incrementPC();
+    }
+
+    if(size == 3) {
+        cpu.flattenInstructionAddress();
+    }
+    if(size >= 2) {
+        cpu.aLoadInstructionAddress();
+    }
+
+    uint8_t opcode = cpu.instruction[0];
+    bus.rwSignal = cpu.instructionTable[opcode].rw;
+}
+
+
+void NES::handleCpuPcStart() {
     for(int i = 0; i < 2; i++) {
+        cpu.aLoadPC();
+        rom.dLoadByteAtAddress();
 
-        cpu.busLoadPC();
-        rom.busLoadByte();
-
-        cpu.busStoreResetVector();
+        cpu.aStoreResetVector();
 
         cpu.incrementPC();
     }
@@ -44,32 +80,6 @@ void NES::storeCPUProgramStart() {
     cpu.registers.PC = (cpu.resetVector[0] << 8) | (cpu.resetVector[1]);
 }
 
-void NES::loadCPUInstruction() {
-    cpu.busLoadPC();
-
-    rom.busLoadByte();
-
-    uint8_t size = cpu.instructionTable[bus.data].size;
-    cpu.busStoreInstruction(0);
-    cpu.incrementPC();
-
-    for(int i = 1; i < size; i++) {
-        cpu.busLoadPC();
-        rom.busLoadByte();
-        cpu.busStoreInstruction(i);
-        cpu.incrementPC();
-    }
-
-    uint8_t opcode = cpu.instruction[0];
-    bus.rwSignal = cpu.instructionTable[opcode].rw;
-
-
-    // make 2 byte address into 1 2 byte variable
-    if(size == 3) {
-        cpu.instruction[1] = ((cpu.instruction[2] << 8) | cpu.instruction[1]);
-        cpu.instruction[2] = 0;
-    }
-}
 
 void NES::hexStringFileToHexFile(std::string fileName) {
     std::ifstream ifile(fileName.c_str());
