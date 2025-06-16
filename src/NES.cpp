@@ -56,10 +56,10 @@ void NES::handleCpuGetNextInstruction() {
     }
 
     if(size == 3) {
-        cpu.flattenInstructionAddress();
+        cpu.flattenInstructionArgument();
     }
     if(size >= 2) {
-        cpu.aLoadInstructionAddress();
+        cpu.aLoadInstructionArgument();
     }
 
     uint8_t opcode = cpu.instruction[0];

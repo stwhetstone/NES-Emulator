@@ -298,6 +298,7 @@ uint8_t CPU::getFlagValue(CPUTypes::Flag f) {
     return (registers.status & (1 << f)) >> f;
 }
 
+
 void CPU::setFlagValue(CPUTypes::Flag f, uint8_t byte) {
     if(byte == 0 || f == CPUTypes::Flag::ONE) {
         return;
@@ -318,14 +319,17 @@ void CPU::executeInstruction() {
     instructionTable[opcode].fnc();
 }
 
-void CPU::flattenInstructionAddress() {
+
+void CPU::flattenInstructionArgument() {
     instruction[1] = ((instruction[2] << 8) | instruction[1]);
     instruction[2] = 0;
 }
 
+
 void CPU::incrementPC() {
     registers.PC++;
 }
+
 
 void CPU::printRegisters() {
     std::cout << "A " << std::hex << (unsigned)registers.A << '\n';
@@ -346,13 +350,16 @@ void CPU::printRegisters() {
 }
 
 
-void CPU::aLoadInstructionAddress() {
+void CPU::aLoadInstructionArgument() {
     bus.address = instruction[1];
 }
 
+
 void CPU::aLoadPC() {
     bus.address = registers.PC;
+        // 1 - read
 }
+
 
 void CPU::aStoreResetVector() {
     if(registers.PC != 0xfffc) {
@@ -362,6 +369,7 @@ void CPU::aStoreResetVector() {
 
     resetVector[1] = bus.data;
 }
+
 
 void CPU::dLoadRegister(CPUTypes::RegisterName r) {
     switch(r) {
@@ -381,6 +389,7 @@ void CPU::dLoadRegister(CPUTypes::RegisterName r) {
             break;
     }
 }
+
 
 void CPU::dStoreInstruction(int i) {
     instruction[i] = bus.data;

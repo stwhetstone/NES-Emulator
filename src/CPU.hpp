@@ -29,11 +29,11 @@ class CPU {
         void setFlagValue(CPUTypes::Flag f, uint8_t byte);
 
         void executeInstruction();
-        void flattenInstructionAddress();
+        void flattenInstructionArgument();
         void incrementPC();
         void printRegisters();
 
-        void aLoadInstructionAddress();
+        void aLoadInstructionArgument();
         void aLoadPC();
         void aStoreResetVector();
 
