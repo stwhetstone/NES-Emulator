@@ -22,7 +22,7 @@ void ROM::getFileData(std::string fileName) {
 }
 
 
-void ROM::dLoadByteAtAddress() {
+void ROM::dBusLoadByteAtAddress() {
     // rom memory space starts at 0x4020
     uint16_t pc = bus.address - 0x4020;
 

@@ -16,7 +16,7 @@ NES::NES() : cpu(this->bus), rom(this->bus) {
 void NES::init() {
     handleCpuPcStart();
 
-    ram[0x5ff] = 0xbe;
+    ram[0x5ff] = 0xe9;
 }
 
 
@@ -38,19 +38,19 @@ void NES::mainLoop() {
 
 
 void NES::handleCpuGetNextInstruction() {
-    cpu.aLoadPC();
-    rom.dLoadByteAtAddress();
+    cpu.aBusLoadPC();
+    rom.dBusLoadByteAtAddress();
 
     // get opcode
     uint8_t size = cpu.instructionTable[bus.data].size;
-    cpu.dStoreInstruction(0);
+    cpu.dBusStoreInstruction(0);
     cpu.incrementPC();
 
     // get instruction arguments
     for(int i = 1; i < size; i++) {
-        cpu.aLoadPC();
-        rom.dLoadByteAtAddress();
-        cpu.dStoreInstruction(i);
+        cpu.aBusLoadPC();
+        rom.dBusLoadByteAtAddress();
+        cpu.dBusStoreInstruction(i);
 
         cpu.incrementPC();
     }
@@ -59,7 +59,7 @@ void NES::handleCpuGetNextInstruction() {
         cpu.flattenInstructionArgument();
     }
     if(size >= 2) {
-        cpu.aLoadInstructionArgument();
+        cpu.aBusLoadInstructionArgument();
     }
 
     uint8_t opcode = cpu.instruction[0];
@@ -69,10 +69,10 @@ void NES::handleCpuGetNextInstruction() {
 
 void NES::handleCpuPcStart() {
     for(int i = 0; i < 2; i++) {
-        cpu.aLoadPC();
-        rom.dLoadByteAtAddress();
+        cpu.aBusLoadPC();
+        rom.dBusLoadByteAtAddress();
 
-        cpu.aStoreResetVector();
+        cpu.aBusStoreResetVector();
 
         cpu.incrementPC();
     }

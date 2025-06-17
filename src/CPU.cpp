@@ -350,18 +350,17 @@ void CPU::printRegisters() {
 }
 
 
-void CPU::aLoadInstructionArgument() {
+void CPU::aBusLoadInstructionArgument() {
     bus.address = instruction[1];
 }
 
 
-void CPU::aLoadPC() {
+void CPU::aBusLoadPC() {
     bus.address = registers.PC;
-        // 1 - read
 }
 
 
-void CPU::aStoreResetVector() {
+void CPU::aBusStoreResetVector() {
     if(registers.PC != 0xfffc) {
         resetVector[0] = bus.data;
         return;
@@ -371,7 +370,7 @@ void CPU::aStoreResetVector() {
 }
 
 
-void CPU::dLoadRegister(CPUTypes::RegisterName r) {
+void CPU::dBusLoadRegister(CPUTypes::RegisterName r) {
     switch(r) {
         case CPUTypes::RegisterName::A:
             bus.data = registers.A;
@@ -391,7 +390,7 @@ void CPU::dLoadRegister(CPUTypes::RegisterName r) {
 }
 
 
-void CPU::dStoreInstruction(int i) {
+void CPU::dBusStoreInstruction(int i) {
     instruction[i] = bus.data;
 }
 

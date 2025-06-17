@@ -33,12 +33,12 @@ class CPU {
         void incrementPC();
         void printRegisters();
 
-        void aLoadInstructionArgument();
-        void aLoadPC();
-        void aStoreResetVector();
+        void aBusLoadInstructionArgument();
+        void aBusLoadPC();
+        void aBusStoreResetVector();
 
-        void dLoadRegister(CPUTypes::RegisterName r);
-        void dStoreInstruction(int i);
+        void dBusLoadRegister(CPUTypes::RegisterName r);
+        void dBusStoreInstruction(int i);
 
 
         // Instructions 

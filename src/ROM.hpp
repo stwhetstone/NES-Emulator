@@ -15,7 +15,7 @@ class ROM {
 
         void getFileData(std::string fileName);
 
-        void dLoadByteAtAddress();
+        void dBusLoadByteAtAddress();
 };
 
 #endif
