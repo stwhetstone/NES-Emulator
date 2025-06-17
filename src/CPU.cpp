@@ -161,7 +161,7 @@ void CPU::initInstructionTable() {
     instructionTable[0x20] = {3, 6, 1, jsrl};
 
     auto ldal = [this](){this->LDA();};
-    instructionTable[0xA9] = {2, 2, 2, ldal};
+    instructionTable[0xA9] = {2, 2, 1, ldal};
     instructionTable[0xA5] = {2, 3, 1, ldal};
     instructionTable[0xB5] = {2, 4, 1, ldal};
     instructionTable[0xAD] = {3, 4, 1, ldal};
@@ -367,6 +367,11 @@ void CPU::aBusStoreResetVector() {
     }
 
     resetVector[1] = bus.data;
+}
+
+
+void CPU::dBusLoadInstructionArgument() {
+    bus.data = instruction[1];
 }
 
 

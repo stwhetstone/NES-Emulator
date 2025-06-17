@@ -37,6 +37,7 @@ class CPU {
         void aBusLoadPC();
         void aBusStoreResetVector();
 
+        void dBusLoadInstructionArgument();
         void dBusLoadRegister(CPUTypes::RegisterName r);
         void dBusStoreInstruction(int i);
 

@@ -24,7 +24,7 @@ void NES::mainLoop() {
     handleCpuGetNextInstruction();
 
     uint16_t address = bus.address;
-    if(bus.rwSignal == 1 && address >= 0 && address <= 0x7ff) {
+    if(address >= 0 && address <= 0x7ff && bus.rwSignal == 1) {
         bus.data = ram[address];
     }
     
@@ -57,9 +57,9 @@ void NES::handleCpuGetNextInstruction() {
 
     if(size == 3) {
         cpu.flattenInstructionArgument();
-    }
-    if(size >= 2) {
         cpu.aBusLoadInstructionArgument();
+    } else if(size == 2) {
+        cpu.dBusLoadInstructionArgument();
     }
 
     cpu.rwBusSetSignal();
