@@ -40,6 +40,8 @@ class CPU {
         void dBusLoadRegister(CPUTypes::RegisterName r);
         void dBusStoreInstruction(int i);
 
+        void rwBusSetSignal();
+
 
         // Instructions 
         // Access

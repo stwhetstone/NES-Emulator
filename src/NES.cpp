@@ -62,8 +62,7 @@ void NES::handleCpuGetNextInstruction() {
         cpu.aBusLoadInstructionArgument();
     }
 
-    uint8_t opcode = cpu.instruction[0];
-    bus.rwSignal = cpu.instructionTable[opcode].rw;
+    cpu.rwBusSetSignal();
 }
 
 
