@@ -1,4 +1,5 @@
 #include <cstdint>
+#include <array>
 #include <string>
 #include <map>
 #include <vector>
@@ -26,7 +27,8 @@ class CPU {
         void initInstructionTable();
 
         uint8_t getFlagValue(CPUTypes::Flag f);
-        void setFlagValue(CPUTypes::Flag f, uint8_t byte);
+        void setStatusFlagValue(CPUTypes::Flag f, bool set);
+        void setStatusFlags(uint8_t flags, bool set);
 
         void executeInstruction();
         void flattenInstructionArgument();

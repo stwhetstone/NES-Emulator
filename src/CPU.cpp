@@ -299,12 +299,48 @@ uint8_t CPU::getFlagValue(CPUTypes::Flag f) {
 }
 
 
-void CPU::setFlagValue(CPUTypes::Flag f, uint8_t byte) {
-    if(byte == 0 || f == CPUTypes::Flag::ONE) {
+void CPU::setStatusFlagValue(CPUTypes::Flag f, bool set) {
+    if(f == CPUTypes::Flag::ONE) {
         return;
     }
 
-    registers.status |= byte << f;
+    if(set) {
+        registers.status |= 1 << f;
+    } else if(!set) {
+        registers.status &= ~(1 << f);
+    }
+}
+
+
+void CPU::setStatusFlags(uint8_t flags, bool set) {
+    // carry
+    if((flags & 1) == 1) {
+        setStatusFlagValue(CPUTypes::Flag::C, set);
+    } 
+    // zero
+    if((flags & 2) >> 1 == 1) {
+        setStatusFlagValue(CPUTypes::Flag::Z, set);
+    } 
+    // interrupt disable
+    if((flags & 4) >> 2 == 1) {
+        setStatusFlagValue(CPUTypes::Flag::I, set);
+    } 
+    // decimal
+    if((flags & 8) >> 3 == 1) {
+        setStatusFlagValue(CPUTypes::Flag::D, set);
+    } 
+    // b flag
+    if((flags & 16) >> 4 == 1) {
+        setStatusFlagValue(CPUTypes::Flag::B, set);
+    } 
+    // overflow 
+    if((flags & 64) >> 6 == 1) {
+        setStatusFlagValue(CPUTypes::Flag::V, set);
+    } 
+    // negative
+    if((flags & 128) >> 7 == 1) {
+        setStatusFlagValue(CPUTypes::Flag::N, set);
+    } 
 }
 
 
