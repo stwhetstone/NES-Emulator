@@ -47,83 +47,73 @@ class CPU {
 
 
         // Instructions 
-        // Access
-        void LDA();
-        void LDX();
-        void LDY();
-        void STA();
-        void STX();
-        void STY();
-
-        // Transfer
-        void TAX();
-        void TAY();
-        void TXA();
-        void TYA();
-
-        // Arithmetic
         void ADC();
-        void DEC();
-        void DEX();
-        void DEY();
-        void INC();
-        void INX();
-        void INY();
-        void SBC();
-
-        // Shift
-        void ASL();
-        void LSR();
-        void ROL();
-        void ROR();
-
-        // Bitwise
         void AND();
-        void BIT();
-        void EOR();
-        void ORA();
-
-        // Compare
-        void CMP();
-        void CPX();
-        void CPY();
-
-        // Branch
+        void ASL();
         void BCC();
         void BCS();
+
         void BEQ();
+        void BIT();
         void BMI();
         void BNE();
         void BPL();
+        
+        void BRK();
         void BVC();
         void BVS();
-
-        // Jump
-        void BRK();
+        void CLC();
+        void CLD();
+        
+        void CLI();
+        void CLV();
+        void CMP();
+        void CPX();
+        void CPY();
+        
+        void DEC();
+        void DEX();
+        void DEY();
+        void EOR();
+        void INC();
+        
+        void INX();
+        void INY();
         void JMP();
         void JSR();
-        void RTI();
-        void RTS();
-
-        // Stack
+        void LDA();
+        
+        void LDX();
+        void LDY();
+        void LSR();
+        void NOP();
+        void ORA();
+        
         void PHA();
         void PHP();
         void PLA();
         void PLP();
-        void TSX();
-        void TXS();
-
-        // Flags
-        void CLC();
-        void CLD();
-        void CLI();
-        void CLV();
+        void ROL();
+        
+        void ROR();
+        void RTI();
+        void RTS();
+        void SBC();
         void SEC();
+        
         void SED();
         void SEI();
-
-        // Other
-        void NOP();
+        void STA();
+        void STX();
+        void STY();
+        
+        void TAX();
+        void TAY();
+        void TSX();
+        void TXA();
+        void TXS();
+        
+        void TYA();
 };
 
 
