@@ -256,13 +256,13 @@ void CPU::initInstructionTable() {
     instructionTable[0x78] = {1, 2, 1, seil};
 
     auto stal = [this](){this->STA();};
-    instructionTable[0x85] = {2, 3, 1, stal};
-    instructionTable[0x95] = {2, 4, 1, stal};
-    instructionTable[0x8d] = {3, 4, 1, stal};
-    instructionTable[0x9d] = {3, 5, 1, stal};
-    instructionTable[0x99] = {3, 5, 1, stal};
-    instructionTable[0x81] = {2, 6, 1, stal};
-    instructionTable[0x91] = {2, 6, 1, stal};
+    instructionTable[0x85] = {2, 3, 0, stal};
+    instructionTable[0x95] = {2, 4, 0, stal};
+    instructionTable[0x8d] = {3, 4, 0, stal};
+    instructionTable[0x9d] = {3, 5, 0, stal};
+    instructionTable[0x99] = {3, 5, 0, stal};
+    instructionTable[0x81] = {2, 6, 0, stal};
+    instructionTable[0x91] = {2, 6, 0, stal};
 
     auto stxl = [this](){this->STX();};
     instructionTable[0x86] = {2, 3, 1, stxl};
@@ -382,7 +382,8 @@ void CPU::printRegisters() {
     }
     
     std::cout << '\n';
-    std::cout << "PC " << std::hex << (unsigned)registers.PC << std::endl;
+    std::cout << "PC " << std::hex << (unsigned)registers.PC << '\n';
+    std::cout << std::endl;
 }
 
 
@@ -560,6 +561,9 @@ void CPU::JSR() {
 
 void CPU::LDA() {
     registers.A = bus.data;
+
+    setStatusFlagValue(CPUTypes::Flag::Z, registers.A == 0);
+    setStatusFlagValue(CPUTypes::Flag::N, (registers.A >> 7) == 1);
 }
 
 void CPU::LDX() {
@@ -631,7 +635,8 @@ void CPU::SEI() {
 }
 
 void CPU::STA() {
-
+    aBusLoadInstructionArgument();
+    dBusLoadRegister(CPUTypes::RegisterName::A);
 }
 
 void CPU::STX() {
