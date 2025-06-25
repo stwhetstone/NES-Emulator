@@ -15,25 +15,36 @@ NES::NES() : cpu(this->bus), rom(this->bus) {
 
 void NES::init() {
     handleCpuPcStart();
-
-    ram[0x5ff] = 0xe9;
 }
 
 
 void NES::mainLoop() {
-    handleCpuGetNextInstruction();
+    while(cpu.registers.PC != 0xbfe1) {
+        handleCpuGetNextInstruction();
 
-    uint16_t address = bus.address;
-    if(address >= 0 && address <= 0x7ff && bus.rwSignal == 1) {
-        bus.data = ram[address];
-    }
-    
-    cpu.executeInstruction();
-    cpu.printRegisters();
+        uint16_t address = bus.address;
+        if(bus.rwSignal == 1 && address >= 0 && address <= 0x7ff) {
+            //if(cpu.instruction[0] != 0xea) {
+            //    printf("r %x %x\n", bus.address, bus.data);
+            //}
+            bus.data = ram[address];
+        }
+        
+        cpu.executeInstruction();
+        // if(cpu.instruction[0] != 0xea) {
+        //     printf("op %x\n", cpu.instruction[0]);
+        //     cpu.printRegisters();
+        // }
 
-    if(bus.rwSignal == 0 && address >= 0 && address <= 0x7ff) {
-        ram[address] = bus.data;
+        if(bus.rwSignal == 0 && address >= 0 && address <= 0x7ff) {
+            // if(cpu.instruction[0] != 0xea) {
+            //     printf("w\n");
+            // }
+            ram[address] = bus.data;
+        }
+
     }
+    //printf("ram %x\n", ram[0x2bc]);
 }
 
 
@@ -42,7 +53,8 @@ void NES::handleCpuGetNextInstruction() {
     rom.dBusLoadByteAtAddress();
 
     // get opcode
-    uint8_t size = cpu.instructionTable[bus.data].size;
+    uint8_t size = cpu.instructionTable[bus.data].size,
+            cycles = cpu.instructionTable[bus.data].cycles;
     cpu.dBusStoreInstruction(0);
     cpu.incrementPC();
 
@@ -58,8 +70,11 @@ void NES::handleCpuGetNextInstruction() {
     if(size == 3) {
         cpu.flattenInstructionArgument();
         cpu.aBusLoadInstructionArgument();
-    } else if(size == 2) {
-        cpu.dBusLoadInstructionArgument();
+    } else if(size == 2 && cycles != size) {
+        // non immediate instructions
+        // data from immediate instruciton
+        // is loaded from rom.dBusLoadByteAtAddress
+        cpu.aBusLoadInstructionArgument();
     }
 
     cpu.rwBusSetSignal();
