@@ -444,7 +444,13 @@ void CPU::rwBusSetSignal() {
 
 // Instructions
 void CPU::ADC() {
+    uint8_t a = registers.A;
+    registers.A += bus.data + (registers.status & 1);
 
+    setStatusFlagValue(CPUTypes::Flag::C, registers.A > 0xff);
+    setStatusFlagValue(CPUTypes::Flag::Z, registers.A == 0);
+    setStatusFlagValue(CPUTypes::Flag::V, (registers.A ^ a) & (registers.A ^ bus.data) & 0x80);
+    setStatusFlagValue(CPUTypes::Flag::N, (registers.A >> 7) == 1);
 }
 
 void CPU::AND() {
