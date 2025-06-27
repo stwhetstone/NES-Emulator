@@ -10,6 +10,7 @@
 
 NES::NES() : cpu(this->bus), rom(this->bus) {
     bus = {0, 0, 1};
+    ram.fill(0);
 }
 
 
@@ -24,27 +25,20 @@ void NES::mainLoop() {
 
         uint16_t address = bus.address;
         if(bus.rwSignal == 1 && address >= 0 && address <= 0x7ff) {
-            //if(cpu.instruction[0] != 0xea) {
-            //    printf("r %x %x\n", bus.address, bus.data);
-            //}
             bus.data = ram[address];
         }
         
         cpu.executeInstruction();
-        // if(cpu.instruction[0] != 0xea) {
-        //     printf("op %x\n", cpu.instruction[0]);
-        //     cpu.printRegisters();
-        // }
 
         if(bus.rwSignal == 0 && address >= 0 && address <= 0x7ff) {
-            // if(cpu.instruction[0] != 0xea) {
-            //     printf("w\n");
-            // }
             ram[address] = bus.data;
         }
-
+        
+        if(cpu.instruction[0] != 0xea) {
+            cpu.printRegisters();
+        }
     }
-    //printf("ram %x\n", ram[0x2bc]);
+    dumpRAM();
 }
 
 
@@ -92,6 +86,15 @@ void NES::handleCpuPcStart() {
     }
 
     cpu.registers.PC = (cpu.resetVector[0] << 8) | (cpu.resetVector[1]);
+}
+
+
+void NES::dumpRAM() {
+    for(int i = 0, line = 0; i < 0x801; i++) {
+        if(ram[i] != 0) {
+            printf("%x | %x\n", i, ram[i]);
+        }
+    }
 }
 
 
