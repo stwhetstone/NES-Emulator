@@ -444,12 +444,12 @@ void CPU::rwBusSetSignal() {
 
 // Instructions
 void CPU::ADC() {
-    uint8_t a = registers.A;
+    uint8_t tmpA = registers.A;
     registers.A += bus.data + (registers.status & 1);
 
     setStatusFlagValue(CPUTypes::Flag::C, registers.A > 0xff);
     setStatusFlagValue(CPUTypes::Flag::Z, registers.A == 0);
-    setStatusFlagValue(CPUTypes::Flag::V, (registers.A ^ a) & (registers.A ^ bus.data) & 0x80);
+    setStatusFlagValue(CPUTypes::Flag::V, (registers.A ^ tmpA) & (registers.A ^ bus.data) & 0x80);
     setStatusFlagValue(CPUTypes::Flag::N, (registers.A >> 7) == 1);
 }
 
@@ -461,7 +461,22 @@ void CPU::AND() {
 }
 
 void CPU::ASL() {
+    if(instructionTable[instruction[0]].size == 1) {
+        setStatusFlagValue(CPUTypes::Flag::C, (registers.A >> 7) == 1);
 
+        registers.A <<= 1;
+
+        setStatusFlagValue(CPUTypes::Flag::Z, registers.A == 0);
+        setStatusFlagValue(CPUTypes::Flag::N, (registers.A >> 7) == 1);
+    } else {
+        setStatusFlagValue(CPUTypes::Flag::C, (bus.data >> 7) == 1);
+
+        bus.data <<= 1;
+        bus.rwSignal = 0;
+
+        setStatusFlagValue(CPUTypes::Flag::Z, bus.data == 0);
+        setStatusFlagValue(CPUTypes::Flag::N, (bus.data >> 7) == 1);
+    }
 }
 
 void CPU::BCC() {
