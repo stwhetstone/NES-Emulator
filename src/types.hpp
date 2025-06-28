@@ -36,7 +36,7 @@ namespace CPUTypes {
     };
 
     typedef struct InstructionDef {
-        uint8_t size, cycles, rw;
+        uint8_t size, cycles, rw, xyIndex;
         std::function<void()> fnc;
     } Instruction;
 };
