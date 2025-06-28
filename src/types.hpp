@@ -9,7 +9,7 @@ namespace NESTypes {
     typedef struct Bus {
         uint8_t data;
         uint16_t address;
-        // 0 = write | 1 = read  
+        // 0 = write, 1 = read  
         uint8_t rwSignal;
     } Bus;
 };
@@ -30,13 +30,33 @@ namespace CPUTypes {
         I = 2,
         D = 3,
         B = 4,
-        ONE = 5,
+        One = 5,
         V = 6,
         N = 7 
     };
 
+    enum AddressingMode {
+        Absolute,
+        Accumulator,
+        Immediate,
+        Implied,
+        Indirect,
+        Relative,
+        ZeroPage,
+        AbsoluteIndexedX,
+        AbsoluteIndexedY,
+        IndexedIndirectX,
+        IndexedIndirectY,
+        IndirectIndexedX,
+        IndirectIndexedY,
+        ZeroPageIndexedX,
+        ZeroPageIndexedY
+    };
+
     typedef struct InstructionDef {
-        uint8_t size, cycles, rw, xyIndex;
+        // 0 = neither, 1 = x, y = 2 
+        uint8_t size, cycles, rw;
+        AddressingMode mode;
         std::function<void()> fnc;
     } Instruction;
 };
