@@ -27,7 +27,7 @@ void NES::mainLoop() {
         if(bus.rwSignal == 1 && address >= 0 && address <= 0x7ff) {
             bus.data = ram[address];
         }
-        
+
         cpu.executeInstruction();
 
         if(bus.rwSignal == 0 && address >= 0 && address <= 0x7ff) {
@@ -38,6 +38,7 @@ void NES::mainLoop() {
             cpu.printRegisters();
         }
     }
+
     dumpRAM();
 }
 
@@ -47,8 +48,9 @@ void NES::handleCpuGetNextInstruction() {
     rom.dBusLoadByteAtAddress();
 
     // get opcode
-    uint8_t size = cpu.instructionTable[bus.data].size,
-            cycles = cpu.instructionTable[bus.data].cycles;
+    uint8_t opcode = bus.data,
+            size = cpu.instructionTable[opcode].size,
+            cycles = cpu.instructionTable[opcode].cycles;
     cpu.dBusStoreInstruction(0);
     cpu.incrementPC();
 
@@ -64,7 +66,7 @@ void NES::handleCpuGetNextInstruction() {
     if(size == 3) {
         cpu.flattenInstructionArgument();
         cpu.aBusLoadInstructionArgument();
-    } else if(size == 2 && cycles != size) {
+    } else if(size == 2 && cpu.instructionTable[opcode].mode != CPUTypes::AddressingMode::Immediate) {
         // non immediate instructions
         // data from immediate instruciton
         // is loaded from rom.dBusLoadByteAtAddress
@@ -72,6 +74,45 @@ void NES::handleCpuGetNextInstruction() {
     }
 
     cpu.rwBusSetSignal();
+
+    handleCpuIndexedAddressing();
+}
+
+
+void NES::handleCpuIndexedAddressing() {
+    uint8_t opcode = cpu.instruction[0];
+    CPUTypes::AddressingMode mode = cpu.instructionTable[opcode].mode;
+
+    switch(mode) {
+        case CPUTypes::ZeroPageIndexedX:
+        case CPUTypes::AbsoluteIndexedX:
+            cpu.aBusAddXReg(mode);
+            break;
+        case CPUTypes::ZeroPageIndexedY:
+        case CPUTypes::AbsoluteIndexedY:
+            cpu.aBusAddYReg(mode);
+            break;
+        case CPUTypes::IndexedIndirectX: {
+                cpu.aBusAddXReg(CPUTypes::ZeroPageIndexedX);
+                uint16_t lowAddress = bus.address;
+
+                cpu.aBusLoadInstructionArgument();
+                bus.address += 1;
+                cpu.aBusAddXReg(CPUTypes::ZeroPageIndexedX);
+                uint16_t highAddress = bus.address;
+
+                bus.address = (ram[highAddress] << 8) | ram[lowAddress];
+                break;
+            }
+        case CPUTypes::IndirectIndexedY: {
+                uint16_t address = bus.address;
+                bus.address = (ram[address + 1 % 256] << 8) | ram[address];
+                cpu.aBusAddYReg(CPUTypes::AbsoluteIndexedY);
+                break;
+            }
+        default:
+            break;
+    }
 }
 
 
@@ -92,7 +133,7 @@ void NES::handleCpuPcStart() {
 void NES::dumpRAM() {
     for(int i = 0, line = 0; i < 0x801; i++) {
         if(ram[i] != 0) {
-            printf("%x | %x\n", i, ram[i]);
+            printf("%04x | %x\n", i, ram[i]);
         }
     }
 }

@@ -23,6 +23,7 @@ class NES {
         void mainLoop();
 
         void handleCpuGetNextInstruction();
+        void handleCpuIndexedAddressing();
         void handleCpuPcStart();
         
         void dumpRAM();
