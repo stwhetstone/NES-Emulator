@@ -35,6 +35,8 @@ class CPU {
         void incrementPC();
         void printRegisters();
 
+        void aBusAddXReg(CPUTypes::AddressingMode mode);
+        void aBusAddYReg(CPUTypes::AddressingMode mode);
         void aBusLoadInstructionArgument();
         void aBusLoadPC();
         void aBusStoreResetVector();

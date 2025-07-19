@@ -387,6 +387,24 @@ void CPU::printRegisters() {
 }
 
 
+void CPU::aBusAddXReg(CPUTypes::AddressingMode mode) {
+    if(mode == CPUTypes::ZeroPageIndexedX) {
+        uint16_t temp = bus.address;
+        bus.address = (temp + registers.X) % 256;
+    } else if(mode == CPUTypes::AbsoluteIndexedX) {
+        bus.address += registers.X; 
+    }
+}
+
+void CPU::aBusAddYReg(CPUTypes::AddressingMode mode) {
+    if(mode == CPUTypes::ZeroPageIndexedY) {
+        uint16_t temp = bus.address;
+        bus.address = (temp + registers.Y) % 256;
+    } else if(mode == CPUTypes::AbsoluteIndexedY) {
+        bus.address += registers.Y; 
+    }
+}
+
 void CPU::aBusLoadInstructionArgument() {
     bus.address = instruction[1];
 }
@@ -591,7 +609,7 @@ void CPU::LDA() {
 }
 
 void CPU::LDX() {
-
+    registers.X = bus.data;
 }
 
 void CPU::LDY() {
