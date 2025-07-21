@@ -24,14 +24,15 @@ void NES::mainLoop() {
         handleCpuGetNextInstruction();
 
         uint16_t address = bus.address;
-        if(bus.rwSignal == 1 && address >= 0 && address <= 0x7ff) {
-            bus.data = ram[address];
+        // memory is mirrored 4 times between address 0 - 1fff in chunks of 0x800 bytes
+        if(bus.rwSignal == 1 && address >= 0 && address <= 0x1fff) {
+            bus.data = ram[address % 0x800];
         }
 
         cpu.executeInstruction();
 
-        if(bus.rwSignal == 0 && address >= 0 && address <= 0x7ff) {
-            ram[address] = bus.data;
+        if(bus.rwSignal == 0 && address >= 0 && address <= 0x1fff) {
+            ram[address % 0x800] = bus.data;
         }
         
         if(cpu.instruction[0] != 0xea) {
