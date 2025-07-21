@@ -678,7 +678,7 @@ void CPU::SBC() {
 }
 
 void CPU::SEC() {
-
+    setStatusFlagValue(CPUTypes::Flag::C, true);
 }
 
 void CPU::SED() {
