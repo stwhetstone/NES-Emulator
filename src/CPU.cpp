@@ -509,11 +509,13 @@ void CPU::BCS() {
         int8_t signedArgument = bus.data;
         registers.PC += 2 + signedArgument;
     }
-
 }
 
 void CPU::BEQ() {
-
+    if(getFlagValue(CPUTypes::Flag::Z) == 1) {
+        int8_t signedArgument = bus.data;
+        registers.PC += 2 + signedArgument;
+    }
 }
 
 void CPU::BIT() {
