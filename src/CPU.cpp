@@ -610,10 +610,16 @@ void CPU::LDA() {
 
 void CPU::LDX() {
     registers.X = bus.data;
+
+    setStatusFlagValue(CPUTypes::Flag::Z, registers.X == 0);
+    setStatusFlagValue(CPUTypes::Flag::N, (registers.X >> 7) == 1);
 }
 
 void CPU::LDY() {
+    registers.Y = bus.data;
 
+    setStatusFlagValue(CPUTypes::Flag::Z, registers.Y == 0);
+    setStatusFlagValue(CPUTypes::Flag::N, (registers.Y >> 7) == 1);
 }
 
 void CPU::LSR() {
