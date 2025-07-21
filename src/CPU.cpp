@@ -498,7 +498,10 @@ void CPU::ASL() {
 }
 
 void CPU::BCC() {
-
+    if(getFlagValue(CPUTypes::Flag::C) == 0) {
+        int8_t signedArgument = bus.data;
+        registers.PC += 2 + signedArgument;
+    }
 }
 
 void CPU::BCS() {
