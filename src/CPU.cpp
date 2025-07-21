@@ -519,7 +519,9 @@ void CPU::BEQ() {
 }
 
 void CPU::BIT() {
-
+    setStatusFlagValue(CPUTypes::Flag::Z, (registers.A & bus.data) == 0);
+    setStatusFlagValue(CPUTypes::Flag::V, ((bus.data >> 6) & 1) == 1);
+    setStatusFlagValue(CPUTypes::Flag::N, (bus.data >> 7) == 1);
 }
 
 void CPU::BMI() {
@@ -692,17 +694,14 @@ void CPU::SEI() {
 }
 
 void CPU::STA() {
-    aBusLoadInstructionArgument();
     dBusLoadRegister(CPUTypes::RegisterName::A);
 }
 
 void CPU::STX() {
-    aBusLoadInstructionArgument();
     dBusLoadRegister(CPUTypes::RegisterName::X);
 }
 
 void CPU::STY() {
-    aBusLoadInstructionArgument();
     dBusLoadRegister(CPUTypes::RegisterName::Y);
 }
 
