@@ -265,14 +265,14 @@ void CPU::initInstructionTable() {
     instructionTable[0x91] = {2, 6, 0, CPUTypes::AddressingMode::IndirectIndexedY, stal};
 
     auto stxl = [this](){this->STX();};
-    instructionTable[0x86] = {2, 3, 1, CPUTypes::AddressingMode::ZeroPage, stxl};
-    instructionTable[0x96] = {2, 4, 1, CPUTypes::AddressingMode::ZeroPageIndexedY, stxl};
-    instructionTable[0x8e] = {3, 4, 1, CPUTypes::AddressingMode::Absolute, stxl};
+    instructionTable[0x86] = {2, 3, 0, CPUTypes::AddressingMode::ZeroPage, stxl};
+    instructionTable[0x96] = {2, 4, 0, CPUTypes::AddressingMode::ZeroPageIndexedY, stxl};
+    instructionTable[0x8e] = {3, 4, 0, CPUTypes::AddressingMode::Absolute, stxl};
 
     auto styl = [this](){this->STY();};
-    instructionTable[0x84] = {2, 3, 1, CPUTypes::AddressingMode::ZeroPage, styl};
-    instructionTable[0x94] = {2, 4, 1, CPUTypes::AddressingMode::ZeroPageIndexedX, styl};
-    instructionTable[0x8c] = {3, 4, 1, CPUTypes::AddressingMode::Absolute, styl};
+    instructionTable[0x84] = {2, 3, 0, CPUTypes::AddressingMode::ZeroPage, styl};
+    instructionTable[0x94] = {2, 4, 0, CPUTypes::AddressingMode::ZeroPageIndexedX, styl};
+    instructionTable[0x8c] = {3, 4, 0, CPUTypes::AddressingMode::Absolute, styl};
 
     auto taxl = [this](){this->TAX();};
     instructionTable[0xaa] = {1, 2, 1, CPUTypes::AddressingMode::Implied, taxl};
@@ -688,11 +688,13 @@ void CPU::STA() {
 }
 
 void CPU::STX() {
-
+    aBusLoadInstructionArgument();
+    dBusLoadRegister(CPUTypes::RegisterName::X);
 }
 
 void CPU::STY() {
-
+    aBusLoadInstructionArgument();
+    dBusLoadRegister(CPUTypes::RegisterName::Y);
 }
 
 void CPU::TAX() {

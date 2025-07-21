@@ -84,30 +84,30 @@ void NES::handleCpuIndexedAddressing() {
     CPUTypes::AddressingMode mode = cpu.instructionTable[opcode].mode;
 
     switch(mode) {
-        case CPUTypes::ZeroPageIndexedX:
-        case CPUTypes::AbsoluteIndexedX:
+        case CPUTypes::AddressingMode::ZeroPageIndexedX:
+        case CPUTypes::AddressingMode::AbsoluteIndexedX:
             cpu.aBusAddXReg(mode);
             break;
-        case CPUTypes::ZeroPageIndexedY:
-        case CPUTypes::AbsoluteIndexedY:
+        case CPUTypes::AddressingMode::ZeroPageIndexedY:
+        case CPUTypes::AddressingMode::AbsoluteIndexedY:
             cpu.aBusAddYReg(mode);
             break;
-        case CPUTypes::IndexedIndirectX: {
-                cpu.aBusAddXReg(CPUTypes::ZeroPageIndexedX);
+        case CPUTypes::AddressingMode::IndexedIndirectX: {
+                cpu.aBusAddXReg(CPUTypes::AddressingMode::ZeroPageIndexedX);
                 uint16_t lowAddress = bus.address;
 
                 cpu.aBusLoadInstructionArgument();
                 bus.address += 1;
-                cpu.aBusAddXReg(CPUTypes::ZeroPageIndexedX);
+                cpu.aBusAddXReg(CPUTypes::AddressingMode::ZeroPageIndexedX);
                 uint16_t highAddress = bus.address;
 
                 bus.address = (ram[highAddress] << 8) | ram[lowAddress];
                 break;
             }
-        case CPUTypes::IndirectIndexedY: {
+        case CPUTypes::AddressingMode::IndirectIndexedY: {
                 uint16_t address = bus.address;
                 bus.address = (ram[address + 1 % 256] << 8) | ram[address];
-                cpu.aBusAddYReg(CPUTypes::AbsoluteIndexedY);
+                cpu.aBusAddYReg(CPUTypes::AddressingMode::AbsoluteIndexedY);
                 break;
             }
         default:
