@@ -525,6 +525,10 @@ void CPU::BIT() {
 }
 
 void CPU::BMI() {
+    if(getFlagValue(CPUTypes::Flag::N) == 1) {
+        int8_t signedArgument = bus.data;
+        registers.PC += 2 + signedArgument;
+    }
 
 }
 
