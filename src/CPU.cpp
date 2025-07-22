@@ -529,11 +529,13 @@ void CPU::BMI() {
         int8_t signedArgument = bus.data;
         registers.PC += 2 + signedArgument;
     }
-
 }
 
 void CPU::BNE() {
-
+    if(getFlagValue(CPUTypes::Flag::Z) == 0) {
+        int8_t signedArgument = bus.data;
+        registers.PC += 2 + signedArgument;
+    }
 }
 
 void CPU::BPL() {
