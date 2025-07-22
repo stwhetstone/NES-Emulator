@@ -539,7 +539,10 @@ void CPU::BNE() {
 }
 
 void CPU::BPL() {
-
+    if(getFlagValue(CPUTypes::Flag::N) == 0) {
+        int8_t signedArgument = bus.data;
+        registers.PC += 2 + signedArgument;
+    }
 }
 
 void CPU::BRK() {
