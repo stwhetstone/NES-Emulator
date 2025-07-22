@@ -550,7 +550,10 @@ void CPU::BRK() {
 }
 
 void CPU::BVC() {
-
+    if(getFlagValue(CPUTypes::Flag::V) == 0) {
+        int8_t signedArgument = bus.data;
+        registers.PC += 2 + signedArgument;
+    }
 }
 
 void CPU::BVS() {
