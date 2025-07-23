@@ -380,8 +380,8 @@ void CPU::printRegisters() {
         }
         std::cout << ((registers.status & (1 << i)) >> i);
     }
+    std::cout << "\n       NV1B DIZC" << '\n';
     
-    std::cout << '\n';
     std::cout << "PC " << std::hex << (unsigned)registers.PC << '\n';
     std::cout << std::endl;
 }
@@ -564,11 +564,11 @@ void CPU::BVS() {
 }
 
 void CPU::CLC() {
-
+    setStatusFlagValue(CPUTypes::Flag::C, false);
 }
 
 void CPU::CLD() {
-
+    setStatusFlagValue(CPUTypes::Flag::D, false);
 }
 
 void CPU::CLI() {
@@ -576,7 +576,7 @@ void CPU::CLI() {
 }
 
 void CPU::CLV() {
-
+    setStatusFlagValue(CPUTypes::Flag::V, false);
 }
 
 void CPU::CMP() {
