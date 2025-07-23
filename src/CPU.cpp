@@ -580,15 +580,27 @@ void CPU::CLV() {
 }
 
 void CPU::CMP() {
+    uint8_t cmpValue = registers.A - bus.data;
 
+    setStatusFlagValue(CPUTypes::Flag::C, cmpValue >= 0);
+    setStatusFlagValue(CPUTypes::Flag::Z, cmpValue == 0);
+    setStatusFlagValue(CPUTypes::Flag::N, (cmpValue >> 7) == 1);
 }
 
 void CPU::CPX() {
+    uint8_t cmpValue = registers.X - bus.data;
 
+    setStatusFlagValue(CPUTypes::Flag::C, cmpValue >= 0);
+    setStatusFlagValue(CPUTypes::Flag::Z, cmpValue == 0);
+    setStatusFlagValue(CPUTypes::Flag::N, (cmpValue >> 7) == 1);
 }
 
 void CPU::CPY() {
+    uint8_t cmpValue = registers.Y - bus.data;
 
+    setStatusFlagValue(CPUTypes::Flag::C, cmpValue >= 0);
+    setStatusFlagValue(CPUTypes::Flag::Z, cmpValue == 0);
+    setStatusFlagValue(CPUTypes::Flag::N, (cmpValue >> 7) == 1);
 }
 
 void CPU::DEC() {
