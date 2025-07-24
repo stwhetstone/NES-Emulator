@@ -657,7 +657,7 @@ void CPU::INY() {
 }
 
 void CPU::JMP() {
-
+    registers.PC = bus.address;
 }
 
 void CPU::JSR() {
