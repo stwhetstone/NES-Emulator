@@ -604,15 +604,26 @@ void CPU::CPY() {
 }
 
 void CPU::DEC() {
+    bus.data -= 1;
 
+    setStatusFlagValue(CPUTypes::Flag::Z, bus.data == 0);
+    setStatusFlagValue(CPUTypes::Flag::N, (bus.data >> 7) == 1);
+
+    bus.rwSignal = 0;
 }
 
 void CPU::DEX() {
+    registers.X -= 1;
 
+    setStatusFlagValue(CPUTypes::Flag::Z, registers.X == 0);
+    setStatusFlagValue(CPUTypes::Flag::N, (registers.X >> 7) == 1);
 }
 
 void CPU::DEY() {
+    registers.Y -= 1;
 
+    setStatusFlagValue(CPUTypes::Flag::Z, registers.Y == 0);
+    setStatusFlagValue(CPUTypes::Flag::N, (registers.Y >> 7) == 1);
 }
 
 void CPU::EOR() {
