@@ -87,12 +87,12 @@ void NES::handleCpuIndexedAddressing() {
     switch(mode) {
         case CPUTypes::AddressingMode::ZeroPageIndexedX:
         case CPUTypes::AddressingMode::AbsoluteIndexedX:
-            cpu.aBusAddXReg(mode);
-            break;
+                cpu.aBusAddXReg(mode);
+                break;
         case CPUTypes::AddressingMode::ZeroPageIndexedY:
         case CPUTypes::AddressingMode::AbsoluteIndexedY:
-            cpu.aBusAddYReg(mode);
-            break;
+                cpu.aBusAddYReg(mode);
+                break;
         case CPUTypes::AddressingMode::IndexedIndirectX: {
                 cpu.aBusAddXReg(CPUTypes::AddressingMode::ZeroPageIndexedX);
                 uint16_t lowAddress = bus.address;
@@ -110,6 +110,17 @@ void NES::handleCpuIndexedAddressing() {
                 bus.address = (ram[address + 1 % 256] << 8) | ram[address];
                 cpu.aBusAddYReg(CPUTypes::AddressingMode::AbsoluteIndexedY);
                 break;
+            }
+        case CPUTypes::AddressingMode::Indirect: {
+                uint16_t address = bus.address;
+                // cpu bug causes an address ending in ff to increment the lower half of the bits but not the upper half
+                // JMP ($03ff) looks at address 03ff and 0300, instead of 03ff and 0400
+                if((address & 0xff) == 0xff) {
+                    bus.address = (ram[address & 0xff00] << 8) | ram[address];
+                } else if((address & 0xff) != 0xff){
+                    bus.address = (ram[address + 1 % 256] << 8) | ram[address];
+                }
+                break; 
             }
         default:
             break;
