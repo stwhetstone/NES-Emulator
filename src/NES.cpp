@@ -27,21 +27,25 @@ void NES::mainLoop() {
         do {
             uint16_t address = bus.address;
             // memory is mirrored 4 times between address 0 - 1fff in chunks of 0x800 bytes
-            if(bus.rwSignal == 1 && address >= 0 && address <= 0x1fff) {
+            if((bus.rwSignal == 1 || bus.rwSignal == 3) && 
+                    address >= 0 && address <= 0x1fff
+            ) {
                 bus.data = ram[address % 0x800];
             }
 
             cpu.executeInstruction();
             address = bus.address;
 
-            if((bus.rwSignal == 0 || bus.rwSignal == 2) && address >= 0 && address <= 0x1fff) {
+            if((bus.rwSignal == 0 || bus.rwSignal == 2) && 
+                    address >= 0 && address <= 0x1fff
+            ) {
                 ram[address % 0x800] = bus.data;
             }
-
-        } while(bus.rwSignal == 2 && cpu.cyclesRemaining > 0);
+        } while(bus.rwSignal >= 2 && cpu.cyclesRemaining > 0);
         
         if(cpu.instruction[0] != 0xea) {
             cpu.printRegisters();
+            printf("-------------\n\n");
         }
     }
 
@@ -82,6 +86,11 @@ void NES::handleCpuGetNextInstruction() {
     cpu.setCyclesRemaining();
 
     cpu.rwBusSetSignal();
+
+    if(bus.rwSignal == 3) {
+        cpu.registers.SP++;
+        cpu.aBusLoadSP();
+    }
 
     handleCpuIndexedAddressing();
 }
