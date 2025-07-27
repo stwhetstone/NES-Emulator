@@ -9,7 +9,7 @@ namespace NESTypes {
     typedef struct Bus {
         uint8_t data;
         uint16_t address;
-        // 0 = write, 1 = read  
+        // 0 = write, 1 = read, 1+ = has to read/write more than 1 byte to ram
         uint8_t rwSignal;
     } Bus;
 };
