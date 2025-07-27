@@ -158,7 +158,7 @@ void CPU::initInstructionTable() {
     instructionTable[0x6c] = {3, 5, 1, CPUTypes::AddressingMode::Indirect, jmpl};
 
     auto jsrl = [this](){this->JSR();};
-    instructionTable[0x20] = {3, 6, 1, CPUTypes::AddressingMode::Absolute, jsrl};
+    instructionTable[0x20] = {3, 6, 2, CPUTypes::AddressingMode::Absolute, jsrl};
 
     auto ldal = [this](){this->LDA();};
     instructionTable[0xa9] = {2, 2, 1, CPUTypes::AddressingMode::Immediate, ldal};
@@ -343,14 +343,22 @@ void CPU::setStatusFlags(uint8_t flags, bool set) {
     } 
 }
 
+void CPU::setCyclesRemaining() {
+    uint8_t opcode = instruction[0],
+            size = instructionTable[opcode].size,
+            cycles = instructionTable[opcode].cycles;
+
+    if(cycles > size) {
+        cyclesRemaining = cycles - size;
+    } else {
+        cyclesRemaining = cycles;
+    }
+}
+
 
 void CPU::executeInstruction() {
     uint8_t opcode = instruction[0];
     uint8_t size = instructionTable[opcode].size, cycles = instructionTable[opcode].cycles;
-
-    if(cycles > size) {
-        cyclesRemaining = cycles - size;
-    }
 
     instructionTable[opcode].fnc();
 }
@@ -661,7 +669,24 @@ void CPU::JMP() {
 }
 
 void CPU::JSR() {
+    if(cyclesRemaining == 3) {
+        bus.data = ((registers.PC + 2) >> 8) & 0xff;
+        // stack is between address 1ff and 100
+        bus.address = 0x100 + registers.SP;
 
+        registers.SP--;
+        cyclesRemaining--;
+
+        return;
+    }
+
+    bus.data = (registers.PC + 2) & 0xff;
+    bus.address = 0x100 + registers.SP;
+
+    registers.SP--;
+    cyclesRemaining = 0;
+
+    registers.PC = instruction[1];
 }
 
 void CPU::LDA() {

@@ -29,6 +29,7 @@ class CPU {
         uint8_t getFlagValue(CPUTypes::Flag f);
         void setStatusFlagValue(CPUTypes::Flag f, bool set);
         void setStatusFlags(uint8_t flags, bool set);
+        void setCyclesRemaining();
 
         void executeInstruction();
         void flattenInstructionArgument();
