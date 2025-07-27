@@ -234,7 +234,7 @@ void CPU::initInstructionTable() {
     instructionTable[0x40] = {1, 6, 1, CPUTypes::AddressingMode::Implied, rtil};
 
     auto rtsl = [this](){this->RTS();};
-    instructionTable[0x60] = {1, 6, 1, CPUTypes::AddressingMode::Implied, rtsl};
+    instructionTable[0x60] = {1, 6, 3, CPUTypes::AddressingMode::Implied, rtsl};
 
     auto sbcl = [this](){this->SBC();};
     instructionTable[0xe9] = {2, 2, 1, CPUTypes::AddressingMode::Immediate, sbcl};
@@ -430,6 +430,11 @@ void CPU::aBusStoreResetVector() {
     }
 
     resetVector[1] = bus.data;
+}
+
+
+void CPU::aBusLoadSP() {
+    bus.address = 0x100 + registers.SP;
 }
 
 
@@ -670,7 +675,11 @@ void CPU::JMP() {
 
 void CPU::JSR() {
     if(cyclesRemaining == 3) {
-        bus.data = ((registers.PC + 2) >> 8) & 0xff;
+        // PC already incremented
+        //      for the correct PC, do minus instruction size, so PC - 3
+        // instruction adds 2 to the PC before pushing to the stack
+        // so PC - 3 + 2 = PC - 1
+        bus.data = ((registers.PC - 1) >> 8) & 0xff;
         // stack is between address 1ff and 100
         bus.address = 0x100 + registers.SP;
 
@@ -680,7 +689,7 @@ void CPU::JSR() {
         return;
     }
 
-    bus.data = (registers.PC + 2) & 0xff;
+    bus.data = (registers.PC - 1) & 0xff;
     bus.address = 0x100 + registers.SP;
 
     registers.SP--;
@@ -751,7 +760,20 @@ void CPU::RTI() {
 }
 
 void CPU::RTS() {
+    if(cyclesRemaining == 5) {
+        registers.PC = (0xff & bus.data);
 
+        registers.SP++;
+        bus.address++;
+
+        cyclesRemaining--;
+        return;
+    }
+
+    registers.PC |= (bus.data << 8) & 0xff00;
+    registers.PC++;
+
+    cyclesRemaining = 0;
 }
 
 void CPU::SBC() {

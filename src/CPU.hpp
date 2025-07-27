@@ -41,6 +41,7 @@ class CPU {
         void aBusLoadInstructionArgument();
         void aBusLoadPC();
         void aBusStoreResetVector();
+        void aBusLoadSP();
 
         void dBusLoadInstructionArgument();
         void dBusLoadRegister(CPUTypes::RegisterName r);
