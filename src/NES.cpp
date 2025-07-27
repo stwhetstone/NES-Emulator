@@ -23,17 +23,22 @@ void NES::mainLoop() {
     while(cpu.registers.PC != 0xbfe1) {
         handleCpuGetNextInstruction();
 
-        uint16_t address = bus.address;
-        // memory is mirrored 4 times between address 0 - 1fff in chunks of 0x800 bytes
-        if(bus.rwSignal == 1 && address >= 0 && address <= 0x1fff) {
-            bus.data = ram[address % 0x800];
-        }
+        // BRK, JSR, and RTS have to write more than one byte to ram
+        do {
+            uint16_t address = bus.address;
+            // memory is mirrored 4 times between address 0 - 1fff in chunks of 0x800 bytes
+            if(bus.rwSignal == 1 && address >= 0 && address <= 0x1fff) {
+                bus.data = ram[address % 0x800];
+            }
 
-        cpu.executeInstruction();
+            cpu.executeInstruction();
+            address = bus.address;
 
-        if(bus.rwSignal == 0 && address >= 0 && address <= 0x1fff) {
-            ram[address % 0x800] = bus.data;
-        }
+            if((bus.rwSignal == 0 || bus.rwSignal == 2) && address >= 0 && address <= 0x1fff) {
+                ram[address % 0x800] = bus.data;
+            }
+
+        } while(bus.rwSignal == 2 && cpu.cyclesRemaining > 0);
         
         if(cpu.instruction[0] != 0xea) {
             cpu.printRegisters();
@@ -73,6 +78,8 @@ void NES::handleCpuGetNextInstruction() {
         // is loaded from rom.dBusLoadByteAtAddress
         cpu.aBusLoadInstructionArgument();
     }
+
+    cpu.setCyclesRemaining();
 
     cpu.rwBusSetSignal();
 
