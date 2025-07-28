@@ -211,10 +211,10 @@ void CPU::initInstructionTable() {
     instructionTable[0x08] = {1, 3, 0, CPUTypes::AddressingMode::Implied, phpl};
 
     auto plal = [this](){this->PLA();};
-    instructionTable[0x68] = {1, 4, 1, CPUTypes::AddressingMode::Implied, plal};
+    instructionTable[0x68] = {1, 4, 3, CPUTypes::AddressingMode::Implied, plal};
 
     auto plpl = [this](){this->PLP();};
-    instructionTable[0x28] = {1, 4, 1, CPUTypes::AddressingMode::Implied, plpl};
+    instructionTable[0x28] = {1, 4, 3, CPUTypes::AddressingMode::Implied, plpl};
 
     auto roll = [this](){this->ROL();};
     instructionTable[0x2a] = {1, 2, 1, CPUTypes::AddressingMode::Accumulator, roll};
@@ -766,11 +766,36 @@ void CPU::PHP() {
 }
 
 void CPU::PLA() {
+    if(cyclesRemaining == 3) {
+        registers.SP++;
+        bus.address = 0x100 + registers.SP;
 
+        cyclesRemaining--;
+        return;
+    }
+
+    registers.A = bus.data;
+
+    setStatusFlagValue(CPUTypes::Flag::Z, registers.A == 0);
+    setStatusFlagValue(CPUTypes::Flag::N, (registers.A >> 7) == 1);
+
+    cyclesRemaining = 0;
 }
 
 void CPU::PLP() {
+    if(cyclesRemaining == 3) {
+        registers.SP++;
+        bus.address = 0x100 + registers.SP;
 
+        cyclesRemaining--;
+        return;
+    }
+
+    // get 1 and B flag value, this instruciton doesn't change them
+    uint8_t statusMask = registers.status & 0x30;
+    registers.status = bus.data | statusMask;
+
+    cyclesRemaining = 0;
 }
 
 void CPU::ROL() {
