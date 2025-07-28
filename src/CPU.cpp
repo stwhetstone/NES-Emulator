@@ -28,7 +28,7 @@ CPU::CPU(NESTypes::Bus &b) : bus(b) {
 void CPU::initInstructionTable() {
     instructionTable.reserve(0xff);
 
-    // lambda because std::bindis slow and to do void(CPU::*fnc), instructiondefs would have to be in CPU.hpp
+    // lambda because std::bind is slow and to do void(CPU::*fnc), instructiondefs would have to be in CPU.hpp
     auto adcl = [this](){this->ADC();};
     instructionTable[0x69] = {2, 2, 1, CPUTypes::AddressingMode::Immediate, adcl};
     instructionTable[0x65] = {2, 3, 1, CPUTypes::AddressingMode::ZeroPage, adcl};
@@ -720,7 +720,22 @@ void CPU::LDY() {
 }
 
 void CPU::LSR() {
+    uint8_t opcode = instruction[0];
+    bool isAccumulator = instructionTable[opcode].mode == CPUTypes::AddressingMode::Accumulator;
 
+    uint8_t shiftValue = isAccumulator ? registers.A >> 1 : bus.data >> 1, 
+            input = isAccumulator ? registers.A : bus.data;
+
+    if(isAccumulator) {
+        registers.A = shiftValue;
+    } else {
+        bus.data = shiftValue;
+        bus.rwSignal = 0;
+    }
+
+    setStatusFlagValue(CPUTypes::Flag::C, (input & 1) == 1);
+    setStatusFlagValue(CPUTypes::Flag::Z, shiftValue == 0);
+    setStatusFlagValue(CPUTypes::Flag::N, false);
 }
 
 void CPU::NOP() {
