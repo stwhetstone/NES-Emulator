@@ -54,7 +54,6 @@ namespace CPUTypes {
     };
 
     typedef struct InstructionDef {
-        // 0 = neither, 1 = x, y = 2 
         uint8_t size, cycles, rw;
         AddressingMode mode;
         std::function<void()> fnc;

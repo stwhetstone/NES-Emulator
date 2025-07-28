@@ -28,16 +28,18 @@ void NES::mainLoop() {
             uint16_t address = bus.address;
             // memory is mirrored 4 times between address 0 - 1fff in chunks of 0x800 bytes
             if((bus.rwSignal == 1 || bus.rwSignal == 3) && 
-                    address >= 0 && address <= 0x1fff
+                    address >= 0 && 
+                    address <= 0x1fff
             ) {
                 bus.data = ram[address % 0x800];
             }
 
             cpu.executeInstruction();
             address = bus.address;
-
+            
             if((bus.rwSignal == 0 || bus.rwSignal == 2) && 
-                    address >= 0 && address <= 0x1fff
+                    address >= 0 && 
+                    address <= 0x1fff
             ) {
                 ram[address % 0x800] = bus.data;
             }
