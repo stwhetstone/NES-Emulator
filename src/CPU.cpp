@@ -205,10 +205,10 @@ void CPU::initInstructionTable() {
     instructionTable[0x11] = {2, 5, 1, CPUTypes::AddressingMode::IndirectIndexedY, oral};
 
     auto phal = [this](){this->PHA();};
-    instructionTable[0x48] = {1, 3, 1, CPUTypes::AddressingMode::Implied, phal};
+    instructionTable[0x48] = {1, 3, 0, CPUTypes::AddressingMode::Implied, phal};
 
     auto phpl = [this](){this->PHP();};
-    instructionTable[0x08] = {1, 3, 1, CPUTypes::AddressingMode::Implied, phpl};
+    instructionTable[0x08] = {1, 3, 0, CPUTypes::AddressingMode::Implied, phpl};
 
     auto plal = [this](){this->PLA();};
     instructionTable[0x68] = {1, 4, 1, CPUTypes::AddressingMode::Implied, plal};
@@ -750,11 +750,19 @@ void CPU::ORA() {
 }
 
 void CPU::PHA() {
+    bus.address = 0x100 + registers.SP;
+    bus.data = registers.A;
 
+    registers.SP--;
 }
 
 void CPU::PHP() {
+    uint8_t bFlagMask = 0x10;
 
+    bus.address = 0x100 + registers.SP;
+    bus.data = registers.status | bFlagMask;
+
+    registers.SP--;
 }
 
 void CPU::PLA() {
