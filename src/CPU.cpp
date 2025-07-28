@@ -765,9 +765,10 @@ void CPU::PHP() {
     registers.SP--;
 }
 
+// SP gets incremented in handleCpuGetNextInstruction, 
+// so PLA/PLP don't need to do it
 void CPU::PLA() {
     if(cyclesRemaining == 3) {
-        registers.SP++;
         bus.address = 0x100 + registers.SP;
 
         cyclesRemaining--;
@@ -784,7 +785,6 @@ void CPU::PLA() {
 
 void CPU::PLP() {
     if(cyclesRemaining == 3) {
-        registers.SP++;
         bus.address = 0x100 + registers.SP;
 
         cyclesRemaining--;
