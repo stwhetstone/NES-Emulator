@@ -743,7 +743,10 @@ void CPU::NOP() {
 }
 
 void CPU::ORA() {
+    registers.A |= bus.data;
 
+    setStatusFlagValue(CPUTypes::Flag::Z, registers.A == 0);
+    setStatusFlagValue(CPUTypes::Flag::N, (registers.A >> 7) == 1);
 }
 
 void CPU::PHA() {
