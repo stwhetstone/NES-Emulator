@@ -739,7 +739,7 @@ void CPU::LSR() {
 }
 
 void CPU::NOP() {
-
+    return;
 }
 
 void CPU::ORA() {
