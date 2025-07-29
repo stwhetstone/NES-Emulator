@@ -1,3 +1,4 @@
+#include <cctype>
 #include <iostream>
 
 #include "CPU.hpp"
@@ -785,11 +786,49 @@ void CPU::PLP() {
 }
 
 void CPU::ROL() {
+    uint8_t opcode = instruction[0];
+    bool isAccumulator = instructionTable[opcode].mode == CPUTypes::AddressingMode::Accumulator;
 
+    uint8_t newCarry = isAccumulator ? registers.A & 0x80 : bus.data & 80;
+
+    if(isAccumulator) {
+        registers.A <<= 1;
+        registers.A |= getFlagValue(CPUTypes::Flag::C);
+    } else {
+        bus.data <<= 1;
+        bus.data |= getFlagValue(CPUTypes::Flag::C);
+
+        bus.rwSignal = 0;
+    }
+
+    uint8_t input = isAccumulator ? registers.A : bus.data;
+
+    setStatusFlagValue(CPUTypes::Flag::C, (newCarry >> 7) == 1);
+    setStatusFlagValue(CPUTypes::Flag::Z, input == 0);
+    setStatusFlagValue(CPUTypes::Flag::N, (input >> 7) == 1);
 }
 
 void CPU::ROR() {
+    uint8_t opcode = instruction[0];
+    bool isAccumulator = instructionTable[opcode].mode == CPUTypes::AddressingMode::Accumulator;
 
+    uint8_t newCarry = isAccumulator ? registers.A & 1 : bus.data & 1;
+
+    if(isAccumulator) {
+        registers.A >>= 1;
+        registers.A |= (getFlagValue(CPUTypes::Flag::C) << 7);
+    } else {
+        bus.data >>= 1;
+        bus.data |= (getFlagValue(CPUTypes::Flag::C) << 7);
+
+        bus.rwSignal = 0;
+    }
+
+    uint8_t input = isAccumulator ? registers.A : bus.data;
+
+    setStatusFlagValue(CPUTypes::Flag::C, newCarry == 1);
+    setStatusFlagValue(CPUTypes::Flag::Z, input == 0);
+    setStatusFlagValue(CPUTypes::Flag::N, (input >> 7) == 1);
 }
 
 void CPU::RTI() {
