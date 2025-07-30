@@ -888,26 +888,44 @@ void CPU::STY() {
 }
 
 void CPU::TAX() {
+    registers.X = registers.A;
 
+    setStatusFlagValue(CPUTypes::Flag::Z, registers.X == 0);
+    setStatusFlagValue(CPUTypes::Flag::N, (registers.X >> 7) == 1);
 }
 
 void CPU::TAY() {
+    registers.Y = registers.A;
 
+    setStatusFlagValue(CPUTypes::Flag::Z, registers.Y == 0);
+    setStatusFlagValue(CPUTypes::Flag::N, (registers.Y >> 7) == 1);
 }
 
 void CPU::TSX() {
+    registers.X = registers.SP;
 
+    setStatusFlagValue(CPUTypes::Flag::Z, registers.X == 0);
+    setStatusFlagValue(CPUTypes::Flag::N, (registers.X >> 7) == 1);
 }
 
 void CPU::TXA() {
+    registers.A = registers.X;
 
+    setStatusFlagValue(CPUTypes::Flag::Z, registers.A == 0);
+    setStatusFlagValue(CPUTypes::Flag::N, (registers.A >> 7) == 1);
 }
 
 void CPU::TXS() {
+    registers.SP = registers.X;
 
+    setStatusFlagValue(CPUTypes::Flag::Z, registers.SP == 0);
+    setStatusFlagValue(CPUTypes::Flag::N, (registers.SP >> 7) == 1);
 }
 
 void CPU::TYA() {
+    registers.A = registers.Y;
 
+    setStatusFlagValue(CPUTypes::Flag::Z, registers.A == 0);
+    setStatusFlagValue(CPUTypes::Flag::N, (registers.A >> 7) == 1);
 }
 
