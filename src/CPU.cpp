@@ -510,24 +510,27 @@ void CPU::ASL() {
     }
 }
 
+// for branch instructions
+//      PC already incremented by instruction size (2 bytes) and branching is supposed to increment PC by instruction size
+//          so PC += 2 + signedArgument not required
 void CPU::BCC() {
     if(getFlagValue(CPUTypes::Flag::C) == 0) {
         int8_t signedArgument = bus.data;
-        registers.PC += 2 + signedArgument;
+        registers.PC += signedArgument;
     }
 }
 
 void CPU::BCS() {
     if(getFlagValue(CPUTypes::Flag::C) == 1) {
         int8_t signedArgument = bus.data;
-        registers.PC += 2 + signedArgument;
+        registers.PC += signedArgument;
     }
 }
 
 void CPU::BEQ() {
     if(getFlagValue(CPUTypes::Flag::Z) == 1) {
         int8_t signedArgument = bus.data;
-        registers.PC += 2 + signedArgument;
+        registers.PC += signedArgument;
     }
 }
 
@@ -540,21 +543,21 @@ void CPU::BIT() {
 void CPU::BMI() {
     if(getFlagValue(CPUTypes::Flag::N) == 1) {
         int8_t signedArgument = bus.data;
-        registers.PC += 2 + signedArgument;
+        registers.PC += signedArgument;
     }
 }
 
 void CPU::BNE() {
     if(getFlagValue(CPUTypes::Flag::Z) == 0) {
         int8_t signedArgument = bus.data;
-        registers.PC += 2 + signedArgument;
+        registers.PC += signedArgument;
     }
 }
 
 void CPU::BPL() {
     if(getFlagValue(CPUTypes::Flag::N) == 0) {
         int8_t signedArgument = bus.data;
-        registers.PC += 2 + signedArgument;
+        registers.PC += signedArgument;
     }
 }
 
@@ -565,14 +568,14 @@ void CPU::BRK() {
 void CPU::BVC() {
     if(getFlagValue(CPUTypes::Flag::V) == 0) {
         int8_t signedArgument = bus.data;
-        registers.PC += 2 + signedArgument;
+        registers.PC += signedArgument;
     }
 }
 
 void CPU::BVS() {
     if(getFlagValue(CPUTypes::Flag::V) == 1) {
         int8_t signedArgument = bus.data;
-        registers.PC += 2 + signedArgument;
+        registers.PC += signedArgument;
     }
 }
 
