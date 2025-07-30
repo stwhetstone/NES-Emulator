@@ -1,4 +1,3 @@
-#include <cctype>
 #include <iostream>
 
 #include "CPU.hpp"
@@ -853,7 +852,15 @@ void CPU::RTS() {
 }
 
 void CPU::SBC() {
+    int8_t signedResult = registers.A - bus.data - (~getFlagValue(CPUTypes::Flag::C) & 1);
+    uint8_t tmpA = registers.A;
 
+    registers.A = signedResult;
+
+    setStatusFlagValue(CPUTypes::Flag::C, signedResult >= 0);
+    setStatusFlagValue(CPUTypes::Flag::Z, registers.A == 0);
+    setStatusFlagValue(CPUTypes::Flag::V, ( (signedResult ^ tmpA) & (signedResult ^ ~bus.data) & 0x80) >> 7 == 1);
+    setStatusFlagValue(CPUTypes::Flag::N, (registers.A >> 7) == 1);
 }
 
 void CPU::SEC() {
