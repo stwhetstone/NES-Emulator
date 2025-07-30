@@ -59,7 +59,6 @@ void NES::handleCpuGetNextInstruction() {
     cpu.aBusLoadPC();
     rom.dBusLoadByteAtAddress();
 
-    // get opcode
     uint8_t opcode = bus.data,
             size = cpu.instructionTable[opcode].size,
             cycles = cpu.instructionTable[opcode].cycles;
@@ -78,10 +77,12 @@ void NES::handleCpuGetNextInstruction() {
     if(size == 3) {
         cpu.flattenInstructionArgument();
         cpu.aBusLoadInstructionArgument();
-    } else if(size == 2 && cpu.instructionTable[opcode].mode != CPUTypes::AddressingMode::Immediate) {
+    } else if(size == 2 && 
+                cpu.instructionTable[opcode].mode != CPUTypes::AddressingMode::Immediate &&
+                cpu.instructionTable[opcode].mode != CPUTypes::AddressingMode::Relative
+             ) {
         // non immediate instructions
-        // data from immediate instruciton
-        // is loaded from rom.dBusLoadByteAtAddress
+        //      data from immediate instruciton is loaded from rom.dBusLoadByteAtAddress
         cpu.aBusLoadInstructionArgument();
     }
 
