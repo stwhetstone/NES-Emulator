@@ -868,7 +868,7 @@ void CPU::SEC() {
 }
 
 void CPU::SED() {
-
+    setStatusFlagValue(CPUTypes::Flag::D, true);
 }
 
 void CPU::SEI() {
